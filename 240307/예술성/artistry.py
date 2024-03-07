@@ -9,7 +9,7 @@ dy = [0,0,-1,1]
 group_n =0
 # 각 칸에 그룹 번호 적기
 group = [[0] * n for _ in range(n)]
-group_cnt = [0] * (n*n)
+group_cnt = [0] * (n*n+1)
 next_arr = [[0] * n for _ in range(n)]
 
 for _ in range(n):
