@@ -57,7 +57,7 @@ for k in range(1,K+1): # K턴만큼 게임 진행
                 flag = 1
             else:
                 flag = 0 # 두 변에 한 번씩 길이 증가
-                mx_cnt += 1
+                mx_cnt += val
 
     # [3] 도망자 잡기(술래자리 포함 3칸: 나무가 없는 도망자면 잡힘)
     tset = set(((ti,tj),(ti+tdi[td],tj+tdj[td]),(ti+tdi[td]*2,tj+tdj[td]*2)))
