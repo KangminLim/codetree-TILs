@@ -1,73 +1,151 @@
-N, MM, H, K = map(int,input().split())
-
-# 도망자 좌표 입력
-arr = []
-for _ in range(MM):
-    arr.append(list(map(int,input().split())))
-
-# 나무 좌표 입력
-tree = set()
-for _ in range(H):
-    i, j = map(int,input().split())
-    tree.add((i,j))
-
-# 0(좌) 1(우) 2(하) 3(상)
-di = [0,0,1,-1]
-dj = [-1,1,0,0]
-opp = {0:1,1:0,2:3,3:2} # 반대방향
-
-
-# 상 우 하 좌 / 술랭 방향(바깥으로 돌 때 방향)
-tdi = [-1,0,1,0]
-tdj = [0,1,0,-1]
-
-mx_cnt, cnt, flag, val = 1, 0, 0, 1
-M = (N+1)//2
-ti,tj,td = M,M,0
-ans = 0
-
-for k in range(1,K+1): # K턴만큼 게임 진행
-    # [1] 도망자의 이동(arr)
-    for i in range(len(arr)):
-        if abs(arr[i][0]-ti)+abs(arr[i][1]-tj)<=3: # 거리가 3이하인 경우
-            ni, nj = arr[i][0] + di[arr[i][2]], arr[i][1] + dj[arr[i][2]]
-            if 1<=ni<=N and 1<=nj<=N: # 범위내면 술래체크
-                if (ni,nj) != (ti,tj): # 술래위치가 아니면
-                    arr[i][0], arr[i][1] = ni,nj
-            else:
-                nd = opp[arr[i][2]] # 반대 방향전환
-                ni,nj = arr[i][0] + di[nd], arr[i][1] + dj[nd]
-                if (ni,nj) != (ti,tj): # 술래위치가 아니면
-                    arr[i] = [ni,nj,nd] # 이동처리(방향도 바뀜)
-
-    # [2] 술래의 이동
-    cnt += 1
-    ti, tj = ti+tdi[td], tj+tdj[td]
-    if (ti,tj) == (1,1): # 안쪽으로 동작하는 달팽이
-        mx_cnt, cnt, flag, val = N, 1, 1, -1
-        td = 2 # 초기 방향은 아래로(하)
-    elif (ti,tj) == (M,M):
-        mx_cnt, cnt, flag,val = 1,0,0,1
-        td = 0
+n,m,h,k = map(int,input().split())
+dx = [-1,0,1,0]
+dy = [0,1,0,-1]
+# 맵
+graph = [[0] * (n+1) for _ in range(n+1)]
+# 술래 (상 방향부터 시작)
+seeker = [((n+1)//2,(n+1)//2),0]
+#mx_cnt, cnt, flag, val
+seeker_snail = [1, 0, 0, 1]
+# 도망자
+hider = [[(-1,-1),-1,-1]] * (m+1)
+# 생존 여부
+is_lived = [True] * (m+1)
+# 도망자 정보
+for i in range(1,m+1):
+    x,y,d = map(int,input().split())
+    hider[i] = [(x,y),d,-1]
+# 그래프에 나무 추가
+for i in range(h):
+    x,y = map(int,input().split())
+    graph[x][y] = 1
+answer = 0
+# 최단거리 구하기
+def distance(idx,hider,seeker):
+    hx,hy = hider[idx][0][0], hider[idx][0][1]
+    mx,my = seeker[0][0],seeker[0][1]
+    dist = abs(hx-mx) + abs(hy-my)
+    if dist <= 3:
+        return True
     else:
-        if cnt == mx_cnt: # 방향 변경
+        return False
+# 범위 구하기
+def in_range(x,y):
+    return 0<x<=n and 0<y<=n
+
+def direction(d,dr):
+    # dr 초기값 선정
+    if dr == -1:
+        if d == 1:
+            dr = 1
+            return dr
+        else:
+            dr = 2
+            return dr
+    # 초기가 아닐 때
+    else:
+        # 좌우일 떄
+        if d == 1:
+            if dr == 1:
+                dr += 2
+
+            else:
+                dr -= 2
+        # 상하일 때
+        elif d == 2:
+            if dr == 0:
+                dr += 2
+            else:
+                dr -= 2
+    return dr
+
+def hider_move():
+    global hider
+    for i in range(1,m+1):
+        # 최단 거리 및 생존 여부 판단
+        if not distance(i,hider,seeker) and not is_lived[i]:
+           continue
+        # x,y,(좌우,상하),현재 dr
+        x,y,d,dr = hider[i][0][0],hider[i][0][1], hider[i][1], hider[i][2]
+
+        # dr 초기값 선정
+        if dr == -1:
+            dr = direction(d,dr)
+
+        nx,ny = x+dx[dr],y+dy[dr]
+        # 격자 범위 벗어나지 않음
+        if in_range(nx,ny):
+            # 방향 변경 없고, 이동 안하고 종료
+            if (nx,ny) == (seeker[0][0], seeker[0][1]):
+                continue
+            # 이동
+            else:
+                # hider 움직임 좌표 반영, 위치 반영
+                hider[i][0] = (nx, ny)
+                hider[i][2] = dr
+        # 격자 범위 벗어남
+        else:
+            dr = direction(d,dr)
+            nx, ny = x + dx[dr], y + dy[dr]
+            if in_range(nx, ny):
+                # 방향 변경 하고, 이동 안하고 종료
+                if (nx, ny) == (seeker[0][0], seeker[0][1]):
+                    hider[i][2] = dr
+
+                else:
+                    # hider 움직임 좌표 반영
+                    hider[i][0] = (nx, ny)
+                    hider[i][2] = dr
+
+
+def seeker_move():
+    global seeker, seeker_snail
+    sx, sy, dr = seeker[0][0],seeker[0][1],seeker[1]
+    mx_cnt, cnt, flag, val = seeker_snail
+    cnt += 1
+
+    nx,ny = sx+dx[dr], sy+dy[dr]
+    # 끝점 도착하면 중앙으로
+    if (nx, ny) == (1, 1):
+        mx_cnt, cnt, flag, val = n, 1, 1, -1
+        dr = 2
+
+    elif (nx,ny) == (n//2,n//2):
+        mx_cnt,cnt,flag,val = 1,0,0,1
+        dr = 0
+
+    # 방향 변경
+    else:
+        if cnt == mx_cnt:
             cnt = 0
-            td = (td+val) % 4
+            dr = (dr+val) % 4
             if flag == 0:
                 flag = 1
+            # 두 번에 한번씩 길이 증가
             else:
-                flag = 0 # 두 변에 한 번씩 길이 증가
+                flag = 0
                 mx_cnt += val
 
-    # [3] 도망자 잡기(술래자리 포함 3칸: 나무가 없는 도망자면 잡힘)
-    tset = set(((ti,tj),(ti+tdi[td],tj+tdj[td]),(ti+tdi[td]*2,tj+tdj[td]*2)))
-    # 뒤부터 삭제하려고
-    for i in range(len(arr)-1,-1,-1):
-        if (arr[i][0],arr[i][1]) in tset and (arr[i][0],arr[i][1]) not in tree:
-            arr.pop(i)
-            ans += k
-    # 도망자 다 죽음
-    if not arr:
-        break
+    # update
+    seeker[0],seeker[1] = (nx,ny),dr
+    seeker_snail = mx_cnt,cnt,flag,val
 
-print(ans)
+def seeker_seek(t):
+    global seeker, hider, answer
+    sx, sy, dr = seeker[0][0],seeker[0][1],seeker[1]
+    for dist in range(3):
+        nx, ny = sx + dist * dx[dr], sy + dist * dy[dr]
+        if in_range(nx,ny):
+           if graph[nx][ny] == 0:
+                print(nx,ny)
+                for i in range(1,m+1):
+                    x, y = hider[i][0]
+                    if (nx,ny) == (x,y) and is_lived[i]:
+                        answer += t
+                        is_lived[i] = False
+
+for t in range(1,k+1):
+    hider_move()
+    seeker_move()
+    seeker_seek(t)
+print(answer)
