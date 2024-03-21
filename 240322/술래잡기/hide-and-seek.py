@@ -57,7 +57,7 @@ for k in range(1,K+1):
                 flag = 1
             else:
                 flag = 0
-                mx_cnt += cnt
+                mx_cnt += val
 
     # [3] 도망자 잡기(술래 자리 포함 3칸: 나무가 없는 도망자면 잡힘)
     tset = set(((ti,tj),(ti+tdi[td],tj+tdj[td]),(ti+tdi[td]*2,tj+tdj[td]*2)))
