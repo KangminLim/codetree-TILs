@@ -137,7 +137,6 @@ def seeker_seek(t):
         nx, ny = sx + dist * dx[dr], sy + dist * dy[dr]
         if in_range(nx,ny):
            if graph[nx][ny] == 0:
-                print(nx,ny)
                 for i in range(1,m+1):
                     x, y = hider[i][0]
                     if (nx,ny) == (x,y) and is_lived[i]:
