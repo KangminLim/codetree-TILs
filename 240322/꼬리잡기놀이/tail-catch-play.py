@@ -8,23 +8,25 @@ dy = [0,1,0,-1]
 v = [[False] * n for _ in range(n)]
 
 # 그룹 찾기 함수
-def bfs(i,j,groups_n):
+def bfs(x,y,groups_n):
     q = deque()
-    q.append((i,j))
-    v[i][j] = True
-    groups[groups_n].append((i,j))
+    q.append((x,y))
+    v[x][y] = True
+    groups[groups_n].append((x,y))
     while q:
         ci, cj = q.popleft()
         for i in range(4):
             ni,nj = ci+dx[i], cj+dy[i]
             if 0<=ni<n and 0<=nj<n:
                 if not v[ni][nj]:
-                    if arr[ni][nj] ==2 or arr[ni][nj]==3: # 2번이면 계속 포함
+                    if arr[ni][nj] ==2: # 2번이면 계속 포함 3번 나오면 끝
                         q.append((ni,nj))
                         v[ni][nj] = True
                         groups[groups_n].append((ni,nj))
-
-
+                    elif arr[ni][nj]==3:
+                        v[ni][nj] = True
+                        groups[groups_n].append((ni, nj))
+                        break
 # 그룹 맺기
 for _ in range(m):
     for i in range(n):
