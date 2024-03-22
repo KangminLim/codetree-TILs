@@ -1,39 +1,31 @@
 from collections import deque
-n,m,k = map(int,input().split())
+n,m,K = map(int,input().split())
 arr = [list(map(int,input().split())) for _ in range(n)]
-groups = [deque()*(m) for _ in range(m)]
-groups_n = 0
+
 dx = [-1,0,1,0]
 dy = [0,1,0,-1]
-v = [[False] * n for _ in range(n)]
 
-# 그룹 찾기 함수
-def bfs(x,y,groups_n):
-    q = deque()
-    q.append((x,y))
-    v[x][y] = True
-    groups[groups_n].append((x,y))
-    while q:
-        ci, cj = q.popleft()
-        for i in range(4):
-            ni,nj = ci+dx[i], cj+dy[i]
-            if 0<=ni<n and 0<=nj<n:
-                if not v[ni][nj]:
-                    if arr[ni][nj] ==2: # 2번이면 계속 포함 3번 나오면 끝
-                        q.append((ni,nj))
-                        v[ni][nj] = True
-                        groups[groups_n].append((ni,nj))
-                    elif arr[ni][nj]==3:
-                        v[ni][nj] = True
-                        groups[groups_n].append((ni, nj))
-                        break
-# 그룹 맺기
-for _ in range(m):
-    for i in range(n):
-        for j in range(n):
-            if not v[i][j] and arr[i][j] == 1:
-                bfs(i,j,groups_n)
-                groups_n += 1
+groups = []
+for i in range(n):
+    for j in range(n):
+        if arr[i][j] == 1:
+            w = deque([(i,j)])
+            e = deque([(i, j)])
+            while w:
+                x, y = w.popleft()
+                for k in range(4):
+                    nx,ny = x+dx[k], y+dy[k]
+
+                    if 0<=nx<n and 0<=ny<n and arr[nx][ny] == 2 and (nx,ny) not in e:
+                        e.append((nx,ny))
+                        w.append((nx,ny))
+            x, y =e[-1][0], e[-1][1]
+            for k in range(4):
+                nx, ny = x + dx[k], y+dy[k]
+                if 0<=nx<n and 0<=ny<n and arr[nx][ny] == 3:
+                    e.append((nx,ny))
+                    break
+            groups.append(e)
 
 def move():
     for group in groups:
@@ -79,7 +71,7 @@ def change(x,y):
                     return (j+1) ** 2
 cnt = 0
 
-for i in range(k):
+for i in range(K):
     move()
     a,b = ball(i)
     cnt += change(a,b)
