@@ -4,7 +4,8 @@ arr = [list(map(int,input().split())) for _ in range(N)]
 from collections import deque
 def bfs(si,sj,team_n):
     q = deque()
-    team = []
+    #team = []
+    team = deque()
     q.append((si,sj))
     v[si][sj] = 1
     team.append((si,sj))
@@ -46,7 +47,8 @@ for k in range(K): # 라운드 0부터 k-1까지 진행
         # 인접한 네 방향(범위 내)에서 4인 값으로 진행(추가)
         for ni, nj in ((si-1,sj), (si+1,sj), (si,sj-1),(si,sj+1)):
             if 0<=ni<N and 0<=nj<N and arr[ni][nj] == 4:
-                team.insert(0,(ni,nj)) # 새 머리 좌표
+                # team.insert(0,(ni,nj)) # 새 머리 좌표 (시간 오래 걸림)
+                teams.appendleft((ni,nj))
                 arr[ni][nj] = arr[si][sj] # arr 새 머리 좌표에 팀번호 표시
                 break
 
@@ -68,7 +70,8 @@ for k in range(K): # 라운드 0부터 k-1까지 진행
             team_n = arr[ci][cj]
             # (해당 좌표 인덱스 +1)
             ans += (teams[team_n].index((ci,cj))+1) ** 2
-            teams[team_n] = teams[team_n][::-1]
+            # teams[team_n] = teams[team_n][::-1] # 덱을 사용하면 reverse가능
+            teams[team_n].reverse()
             break
         ci, cj = ci + di[dr], cj + dj[dr]
 print(ans)
