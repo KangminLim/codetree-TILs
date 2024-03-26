@@ -48,7 +48,7 @@ for k in range(K): # 라운드 0부터 k-1까지 진행
         for ni, nj in ((si-1,sj), (si+1,sj), (si,sj-1),(si,sj+1)):
             if 0<=ni<N and 0<=nj<N and arr[ni][nj] == 4:
                 # team.insert(0,(ni,nj)) # 새 머리 좌표 (시간 오래 걸림)
-                teams.appendleft((ni,nj))
+                team.appendleft((ni,nj))
                 arr[ni][nj] = arr[si][sj] # arr 새 머리 좌표에 팀번호 표시
                 break
 
