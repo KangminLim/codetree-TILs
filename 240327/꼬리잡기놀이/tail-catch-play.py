@@ -67,7 +67,7 @@ for k in range(K): # 라운드 0부터 k-1까지 진행
         if 0<=ci<N and 0<=cj<N and arr[ci][cj] > 4: # 특정 팀이 공 받았음
             team_n = arr[ci][cj]
             # (해당 좌표 인덱스 +1)
-            ans += (teams[team_n].index((ci,cj))+1)  ** 2
+            ans += (teams[team_n].index((ci,cj))+1) ** 2
             teams[team_n] = teams[team_n][::-1]
             break
         ci, cj = di[dr], dj[dr]
