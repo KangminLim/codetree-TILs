@@ -70,5 +70,5 @@ for k in range(K): # 라운드 0부터 k-1까지 진행
             ans += (teams[team_n].index((ci,cj))+1) ** 2
             teams[team_n] = teams[team_n][::-1]
             break
-        ci, cj = di[dr], dj[dr]
+        ci, cj = ci + di[dr], cj + dj[dr]
 print(ans)
