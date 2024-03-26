@@ -49,7 +49,7 @@ def find(si,sj,dests): # 시작 좌표에서 목적지 좌표들(set) 중 최단
 def solve():
     q = deque()
     time = 1
-    arrived = [0] * (N+1) # 0이면 미도착, >0이면 도착 시간
+    arrived = [0] * (M+1) # 0이면 미도착, >0이면 도착 시간
 
     while q or time ==1: # 처음 또는 q에 데이터가 있는 동안
         nq = deque()
