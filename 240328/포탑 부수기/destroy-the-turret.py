@@ -50,8 +50,7 @@ for T in range(1,K+1):
                 (mn == arr[i][j] and mx_turn == turn[i][j] and si+sj<i+j) or \
                 (mn == arr[i][j] and mx_turn == turn[i][j] and si+sj==i+j and si < j):
                 mn, mx_turn, si, sj = arr[i][j], turn[i][j],i, j  # si,sj 공격자
-    arr[si][sj] += (N + M)  # 공격력 상승
-    turn[si][sj] = T # 이번 턴에 공격
+
 
     # [2] 공격(공격당할 포탑선정) & 포탑 부서짐
 
@@ -66,6 +65,8 @@ for T in range(1,K+1):
                 mx,mn_turn,ei,ej = arr[i][j], turn[i][j], i, j # ei, ej 공격 대상자
 
     # 2-2 ) 레이저 공격 (우하좌상 순서로 최단거리 이동 - BFS, %N, %M 처리 필요(양끝 연결))
+    arr[si][sj] += (N + M)  # 공격력 상승 # 즉시 반영 시 가장 센 포탑이 될 수도 있음
+    turn[si][sj] = T # 이번 턴에 공격
     fset = set()
     fset.add((si,sj))
     fset.add((ei,ej))
