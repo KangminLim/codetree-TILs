@@ -23,7 +23,7 @@ def bfs(si,sj,ei,ej):
 
         # 우선순위 : 우/하/좌/상 (미방문, 조건 : >0 포탑 있고)
         for di, dj in ((0,1),(1,0),(0,-1),(-1,0)):
-            ni, nj = (ci+di)%N, (cj+j)%M # 반대편으로 이동
+            ni, nj = (ci+di)%N, (cj+dj)%M # 반대편으로 이동
             if len(v[ni][nj])==0 and arr[ni][nj] > 0:
                 q.append((ni,nj))
                 v[ni][nj] = (ci,cj)
@@ -83,7 +83,7 @@ for T in range(1,K+1):
     for lst in arr:
         cnt -= lst.count(0)
     if cnt <= 1: # 남은 포탑이 1이면 종료
-        break 
+        break
 
 
 print(max(map(max,arr)))
