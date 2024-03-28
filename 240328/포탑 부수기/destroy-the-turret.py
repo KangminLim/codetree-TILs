@@ -79,5 +79,11 @@ for T in range(1,K+1):
         for j in range(M):
             if arr[i][j] > 0 and (i,j) not in fset:
                 arr[i][j] += 1
+    cnt = N*M
+    for lst in arr:
+        cnt -= lst.count(0)
+    if cnt <= 1: # 남은 포탑이 1이면 종료
+        break 
+
 
 print(max(map(max,arr)))
