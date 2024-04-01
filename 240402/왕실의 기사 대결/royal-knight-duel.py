@@ -30,16 +30,16 @@ def push_knight(start,dr):
         for idx in knights:
             if idx in pset: continue # 움직일 사람이면 pass
             ti,tj,th,tw,k = knights[idx]
-
-            if ni<=ti+th-1 and ni+h-1<=ti and nj+w-1<=tj and nj <= tj+tw-1:
+            # 겹치는 부위
+            if ni<=ti+th-1 and ni+h-1>=ti and nj+w-1>=tj and nj <= tj+tw-1:
                 q.append(idx)
                 pset.add(idx)
     # 데미지 계산
-
+    damage[start] = 0
     for idx in pset:
         ci,cj,h,w,k = knights[idx]
 
-        if k < damage[idx]:
+        if k <= damage[idx]:
             knights.pop(idx)
 
         else:
@@ -53,6 +53,7 @@ for _ in range(Q):
         push_knight(idx,dr)
 
 ans = 0
+
 for idx in knights:
     ans += init_k[idx] - knights[idx][4]
 print(ans)
