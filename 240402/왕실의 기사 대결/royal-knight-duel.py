@@ -46,7 +46,7 @@ def push_knights(start,dr):
             knights.pop(idx)
         else:
             ni,nj = si + di[dr], sj + dj[dr]
-            knights[idx] = ni,nj,h,w,k-damage[idx]
+            knights[idx] = [ni,nj,h,w,k-damage[idx]]
 
 
 for _ in range(Q):
