@@ -19,7 +19,7 @@ def bfs(si,sj,ei,ej):
                     return True
                 fset.add((ci,cj))
                 arr[ci][cj] = max(0,arr[ci][cj]-d//2)
-        for di,dj in ((-1,0),(0,1),(1,0),(0,-1)):
+        for di, dj in ((0,1),(1,0),(0,-1),(-1,0)):
             ni,nj = (ci+di)%N, (cj+dj)%M
             if not v[ni][nj] and arr[ni][nj] >0: # 방문한적 없고, 벽이 아니면
                 q.append((ni,nj))
@@ -31,8 +31,8 @@ def bomb(si,sj,ei,ej):
     arr[ei][ej] = max(0, arr[ei][ej]-d)
 
     for di,dj in ((-1,-1),(-1,0),(-1,1),(0,1),(1,1),(1,0),(1,-1),(0,-1)):
-        ni, nj = (si+di)%N ,(sj+dj)%M
-        if arr[ni][nj] > 0:
+        ni, nj = (ei+di)%N ,(ej+dj)%M
+        if (ni,nj) != (si,sj):
             arr[ni][nj] = max(0, arr[ni][nj]-d//2)
             fset.add((ni,nj))
 
@@ -42,7 +42,7 @@ for T in range(1,K+1):
     mn, mx_turn, si, sj = 5001, 0, -1, -1
     for i in range(N):
         for j in range(M):
-            if arr[i][j] == 0: continue
+            if arr[i][j] <= 0: continue
             #  [1-1] 공격력이 가장 낮은, 가장 최근에 공격한 포탑, 행과 열의 합이 가장 큰, 열 값이 가장 큰
             if arr[i][j] < mn or (arr[i][j] == mn and mx_turn < turn[i][j]) or \
                 (arr[i][j] == mn and mx_turn == turn[i][j] and si+sj < i+j) or \
@@ -52,12 +52,12 @@ for T in range(1,K+1):
     # [2] 공격 대상 선정
     mx, mn_turn, ei, ej = 0, 1001, 11, 11
     for i in range(N):
-        for j in range(N):
-            if arr[i][j] == 0: continue
+        for j in range(M):
+            if arr[i][j] <= 0: continue
             # [2-1] 공격력이 가장 높은, 마지막으로 공격한 포탑, 행과 열의 합이 가장 작은, 열 값이 가장 작은
-            if arr[i][j] > mx or (arr[i][j] == mx and mx_turn > turn[i][j]) or \
-                (arr[i][j] == mx and mx_turn == turn[i][j] and si+sj > i+j) or \
-                (arr[i][j] == mx and mx_turn == turn[i][j] and si+sj == i+j and sj >j):
+            if arr[i][j] > mx or (arr[i][j] == mx and mn_turn > turn[i][j]) or \
+                (arr[i][j] == mx and mn_turn == turn[i][j] and ei+ej > i+j) or \
+                (arr[i][j] == mx and mn_turn == turn[i][j] and ei+ej == i+j and ej >j):
                 mx, mn_turn, ei, ej = arr[i][j], turn[i][j], i, j
 
     arr[si][sj] += (M+N)  # 공격자 공격력 증가
@@ -72,8 +72,8 @@ for T in range(1,K+1):
     # 포탑 정비 -> 무관한 포탑 공격력 1 증가
     for i in range(N):
         for j in range(N):
-            if (i,j) in fset: continue
-            if arr[i][j] > 0:
+            # if (i,j) in fset: continue
+            if arr[i][j] > 0 and (i,j) not in fset:
                 arr[i][j] += 1
 
     cnt = M*N
