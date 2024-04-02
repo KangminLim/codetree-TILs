@@ -21,7 +21,7 @@ def bfs(si,sj,ei,ej):
                 arr[ci][cj] = max(0,arr[ci][cj]-d//2)
         for di, dj in ((0,1),(1,0),(0,-1),(-1,0)):
             ni,nj = (ci+di)%N, (cj+dj)%M
-            if not v[ni][nj] and arr[ni][nj] >0: # 방문한적 없고, 벽이 아니면
+            if len(v[ni][nj])==0 and arr[ni][nj] >0: # 방문한적 없고, 벽이 아니면
                 q.append((ni,nj))
                 v[ni][nj] = (ci,cj)
     return False
@@ -30,7 +30,7 @@ def bomb(si,sj,ei,ej):
     d = arr[si][sj] # 데미지
     arr[ei][ej] = max(0, arr[ei][ej]-d)
 
-    for di,dj in ((-1,-1),(-1,0),(-1,1),(0,1),(1,1),(1,0),(1,-1),(0,-1)):
+    for di, dj in ((-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1)):
         ni, nj = (ei+di)%N ,(ej+dj)%M
         if (ni,nj) != (si,sj):
             arr[ni][nj] = max(0, arr[ni][nj]-d//2)
@@ -71,7 +71,7 @@ for T in range(1,K+1):
 
     # 포탑 정비 -> 무관한 포탑 공격력 1 증가
     for i in range(N):
-        for j in range(N):
+        for j in range(M):
             # if (i,j) in fset: continue
             if arr[i][j] > 0 and (i,j) not in fset:
                 arr[i][j] += 1
