@@ -37,7 +37,7 @@ def bomb(si,sj,ei,ej):
             arr[ni][nj] = max(0,arr[ni][nj]-d//2)
             fset.add((ni,nj))
 
-for T in range(K):
+for T in range(1,K+1):
     # [1] 공격자 선정
     mn, mx_turn, si,sj = 5001, 0, -1, -1
     for i in range(N):
