@@ -3,7 +3,7 @@ arr =[list(map(int,input().split())) for _ in range(N)]
 
 for _ in range(M):
     i, j = map(lambda x:int(x)-1,input().split())
-    arr[i][j] = -1 # 사람 표시
+    arr[i][j] -= 1 # 사람 표시
 
 ei, ej = map(lambda x:int(x)-1,input().split())
 arr[ei][ej] = -11
@@ -63,7 +63,7 @@ for _ in range(K):
     for i in range(L):
         for j in range(L):
             narr[si+i][sj+j] = arr[si+L-j-1][sj+i]
-            if narr[si+i][sj+j] > 0: # 내구도 증가
+            if narr[si+i][sj+j] > 0: # 내구도 감소
                 narr[si+i][sj+j] -= 1
 
     arr = narr
