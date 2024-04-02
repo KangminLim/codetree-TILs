@@ -35,7 +35,7 @@ def bomb(si,sj,ei,ej):
         ni,nj = (ei+di)%N, (ej+dj)%M
         if (ni,nj) != (si,sj):
             arr[ni][nj] = max(0,arr[ni][nj]-d//2)
-
+            fset.add((ni,nj))
 
 for T in range(K):
     # [1] 공격자 선정
