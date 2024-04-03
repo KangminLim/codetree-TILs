@@ -14,13 +14,13 @@ def find_square(arr):
     for i in range(N):
         for j in range(N):
             if -11< arr[i][j] < 0: # 사람일 경우
-                mn = min(mn, max(abs(ei-i),(abs(ej-j)))) # 가장 짧은 정사각형 가로 or 세로 찾기
+                mn = min(mn, max(abs(ei-i),abs(ej-j))) # 가장 짧은 정사각형 가로 or 세로 찾기
 
     for si in range(N-mn):
         for sj in range(N-mn):
             if si <= ei <= si+mn and sj <= ej <= sj+mn: # 출구를 포함한 정사각형이라면
-                for i in range(si+mn+1):
-                    for j in range(sj+mn+1):
+                for i in range(si,si+mn+1):
+                    for j in range(sj,sj+mn+1):
                         if -11< arr[i][j] <0:
                             return si,sj,mn+1
 def find_exit(arr):
