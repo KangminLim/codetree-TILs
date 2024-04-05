@@ -15,7 +15,7 @@ def bfs(si,sj):
         for ni,nj in ((ci-1,cj),(ci+1,cj),(ci,cj-1),(ci,cj+1)):
             if 0<=ni<N and 0<=nj<N and not v[ni][nj] and arr[ci][cj] == arr[ni][nj]:
                 q.append((ni,nj))
-                groups[-1].add((si,sj))
+                groups[-1].add((ni,nj))
                 v[ni][nj] = True
 
 
@@ -36,7 +36,7 @@ for k in range(4):
     CNT = len(nums)
 
     for i in range(0,CNT-1):
-        for j in range(1,CNT):
+        for j in range(i+1,CNT):
             points = (len(groups[i]) + len(groups[j])) * nums[i] * nums[j]
             for ci, cj in groups[i]:
                 for ni,nj in ((ci-1,cj),(ci+1,cj),(ci,cj-1),(ci,cj+1)):
@@ -59,7 +59,7 @@ for k in range(4):
     for si,sj in ((0,0),(0,M+1),(M+1,0),(M+1,M+1)):
         for i in range(M):
             for j in range(M):
-                narr[si+i][sj+j] = arr[si+N-j-1][sj+i]
+                narr[si+i][sj+j] = arr[si+M-j-1][sj+i]
 
     arr = narr
 
