@@ -74,9 +74,9 @@ for _ in range(M): # M년동안 진행
         for mul in range(1, K + 1):  # 뻗어가면서 처리
             ni, nj = mx_i + di * mul, mx_j + dj * mul
             # 벽(건물)에 제촙제 뿌리면 시간이 지나면 빈땅이 됨
-            if C<=arr[ni][nj] <= 0: # 뻗어가는 것이 종료되는 조건: 빈땅, 제초제 뿌려진 빈 땅 / 벽(건물)을 제외
-                # if C<=arr[ni][nj]: # 제초제 뿌리는 조건
-                arr[ni][nj] = C # 뿌리고, break
+            if arr[ni][nj] <= 0: # 뻗어가는 것이 종료되는 조건: 빈땅, 제초제 뿌려진 빈 땅 / 벽(건물)을 제외
+                if C<=arr[ni][nj]: # 제초제 뿌리는 조건
+                    arr[ni][nj] = C # 뿌리고, break
                 break
             else: # 나무면
                 arr[ni][nj] = C
