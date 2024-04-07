@@ -2,7 +2,7 @@ N, M, P, C, D = map(int,input().split())
 ri, rj = map(lambda x:int(x)-1,input().split())
 arr = [[0] * N for _ in range(N)]
 arr[ri][rj] = -1 # 루돌프 위치
-santa = [[N]*2 for _ in range(N+1)]
+santa = [[N]*2 for _ in range(P+1)]
 
 for _ in range(P):
     idx, i, j = map(int,input().split())
