@@ -1,6 +1,6 @@
 L, N, Q = map(int,input().split())
 
-arr = [[2] * (L+2)] + [[2]+list(map(int,input().split()))+[1] for _ in range(L)] + [[2] * (L+2)]
+arr = [[2] * (L+2)] + [[2]+list(map(int,input().split()))+[2] for _ in range(L)] + [[2] * (L+2)]
 
 knights = {}
 init_k = [0] * (N+1)
