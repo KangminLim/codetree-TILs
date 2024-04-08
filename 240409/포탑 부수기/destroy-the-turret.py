@@ -41,9 +41,9 @@ def bomb(si,sj,ei,ej):
 
 
 for T in range(1,K+1):
-    mn, mx_turn, si, sj = 5001, 0, 11, 11
+    mn, mx_turn, si, sj = 5001, 0, -1, -1
     for i in range(N):
-        for j in range(N):
+        for j in range(M):
             if arr[i][j] == 0: continue # 포탑이 아니면 넘기기
             # 공격력 낮은, 가장 최근에 공격, 행과 열 합 큰, 열 값이 큰
             if arr[i][j] < mn or (arr[i][j] == mn and mx_turn < turn[i][j]) or \
@@ -51,9 +51,9 @@ for T in range(1,K+1):
                 (arr[i][j] == mn and mx_turn == turn[i][j] and si + sj == i + j and sj<j):
                 mn, mx_turn, si, sj = arr[i][j], turn[i][j], i, j
 
-    mx, mn_turn, ei, ej = -1, 1001, -1, -1
+    mx, mn_turn, ei, ej = -1, 1001, 11, 11
     for i in range(N):
-        for j in range(N):
+        for j in range(M):
             if arr[i][j] == 0: continue  # 포탑이 아니면 넘기기
             # 공격력 높은, 가장 오래전에 공격, 행과 열 합 작은, 열 값이 작은
             if arr[i][j] > mx or (arr[i][j] == mx and mn_turn > turn[i][j]) or \
