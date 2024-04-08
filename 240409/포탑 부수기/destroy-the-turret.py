@@ -34,7 +34,7 @@ def bomb(si,sj,ei,ej):
     arr[ei][ej] = max(0,arr[ei][ej]-d)
 
     for di, dj in ((0,-1),(-1,-1),(-1,0),(-1,1),(0,1),(1,1),(1,0),(1,-1)):
-        ni, nj = (si+di)%N, (sj+dj)%M
+        ni, nj = (ei+di)%N, (ej+dj)%M
         if (ni,nj) != (si,sj):
             arr[ni][nj] = max(0,arr[ni][nj]-d//2)
             fset.add((ni,nj))
@@ -79,7 +79,7 @@ for T in range(1,K+1):
     if cnt <= 1: break
 
     for i in range(N):
-        for j in range(N):
+        for j in range(M):
             if (i,j) not in fset and arr[i][j] >0:
                 arr[i][j] += 1
 
