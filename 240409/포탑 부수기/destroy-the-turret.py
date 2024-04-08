@@ -37,7 +37,7 @@ def bomb(si,sj,ei,ej):
         ni, nj = (si+di)%N, (sj+dj)%M
         if (ni,nj) != (si,sj):
             arr[ni][nj] = max(0,arr[ni][nj]-d//2)
-
+            fset.add((ni,nj))
 
 
 for T in range(1,K+1):
@@ -57,8 +57,8 @@ for T in range(1,K+1):
             if arr[i][j] == 0: continue  # 포탑이 아니면 넘기기
             # 공격력 높은, 가장 오래전에 공격, 행과 열 합 작은, 열 값이 작은
             if arr[i][j] > mx or (arr[i][j] == mx and mn_turn > turn[i][j]) or \
-                    (arr[i][j] == mx and mn_turn == turn[i][j] and si + sj > i + j) or \
-                    (arr[i][j] == mx and mn_turn == turn[i][j] and si + sj == i + j and sj > j):
+                (arr[i][j] == mx and mn_turn == turn[i][j] and ei + ej > i + j) or \
+                (arr[i][j] == mx and mn_turn == turn[i][j] and ei + ej == i + j and ej > j):
                 mx, mn_turn, ei, ej = arr[i][j], turn[i][j], i, j
     # 공격자 업데이트
     arr[si][sj] += (N+M)
@@ -76,7 +76,7 @@ for T in range(1,K+1):
     for lst in arr:
         cnt -= lst.count(0)
 
-    if cnt == 0: break
+    if cnt <= 1: break
 
     for i in range(N):
         for j in range(N):
