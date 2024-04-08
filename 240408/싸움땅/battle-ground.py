@@ -21,7 +21,7 @@ di,dj = [-1,0,1,0], [0,1,0,-1]
 opp = {0:2, 1:3, 2:0, 3:1}
 
 
-def leave(num,ci,cj,cd,cg,cp,cs):
+def leave(num,ci,cj,cd,cp,cg,cs):
     for k in range(4):
         ni,nj = ci+di[(cd+k)%4], cj+dj[(cd+k)%4]
         if 0<=ni<N and 0<=nj<N and arr[ni][nj] == 0:
@@ -29,13 +29,13 @@ def leave(num,ci,cj,cd,cg,cp,cs):
                 cg = max(gun[ni][nj])
                 gun[ni][nj].remove(cg)
             arr[ni][nj] = num
-            players[num] = [ni,nj,(cd+k)%4,cg,cp,cs]
+            players[num] = [ni,nj,(cd+k)%4,cp,cg,cs]
             return
 
 
 for turn in range(1,K+1):
     # [1] 1~P번 플레이어
-    for i in range(1,M+1):
+    for i in players:
         ci,cj,cd,cp,cg,cs = players[i]
         ni,nj = ci+di[cd], cj+dj[cd]
 
@@ -67,7 +67,7 @@ for turn in range(1,K+1):
             # 플레이어 승 적 패배
             if (cp+cg) > (ep+eg) or ((cp+cg) == (ep+eg) and cp>ep):
                 cs += (cp+cg) - (ep+eg)
-                leave(enemy,ei,ej,ed,ep,0,es)
+                leave(enemy,ni,nj,ed,ep,0,es)
 
                 if cg < eg: # 상대방 총이 더 썌
                     if cg > 0:
