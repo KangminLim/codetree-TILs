@@ -35,7 +35,7 @@ for k in range(1,K+1):
                     people[i] = [ni,nj,cd]
             else:
                 nd = opp[cd]
-                ni,nj = ci+di[cd], cj+dj[cd]
+                ni,nj = ci+di[nd], cj+dj[nd]
                 if (ni,nj) != (ti,tj):
                     people[i] = [ni,nj,nd]
     # [2] 술래의 이동
