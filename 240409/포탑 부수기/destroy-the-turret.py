@@ -85,6 +85,6 @@ for k in range(1,K+1):
                 arr[i][j] += 1
 mx = 0
 for i in range(N):
-    for j in range(N):
+    for j in range(M):
         mx = max(mx,arr[i][j])
 print(mx)
