@@ -22,8 +22,6 @@ for idx in range(1,M+1):
 di, dj = [-1,0,1,0], [0,1,0,-1]
 opp = {0:2,1:3,2:0,3:1}
 
-from collections import deque
-
 def lose(idx,ci,cj,cd,cp,cg,cs):
 
     for k in range(4):
@@ -31,11 +29,13 @@ def lose(idx,ci,cj,cd,cp,cg,cs):
         if 0<=ni<N and 0<=nj<N and arr[ni][nj] == 0:
             if gun[ni][nj]:
                 cg = max(gun[ni][nj])
+                gun[ni][nj].remove(cg)
             arr[ni][nj] = idx
             players[idx] = [ni,nj,(cd+k)%4,cp,cg,cs] # 플레이어 정보 갱신
             return
 
 # K라운드 동안 게임 진행
+
 for turn in range(1,K+1):
 
     # [1-1] 1~M번 플레이어부터 순차적으로 본인의 방향대로 이동 (격자를 벗어나는 경우 정반대 방향으로 바꾸어서 이동)
@@ -86,7 +86,7 @@ for turn in range(1,K+1):
             # [2-2-2] 전투 (적 승)
             else:
                 es += (ep+eg) - (cp+cg)
-                lose(idx,ni,nj,cd,cp,0,cs)
+                lose(idx,ei,ej,cd,cp,0,cs)
 
                 if eg < cg:
                     if eg > 0:
@@ -95,8 +95,7 @@ for turn in range(1,K+1):
                 else:
                     gun[ni][nj].append(cg)
 
-                arr[ni][nj] = enemy
-                players[enemy] = [ni,nj,ed,ep,eg,es]
+                players[enemy] = [ei,ej,ed,ep,eg,es]
 
 for i in players:
     print(players[i][5], end=' ')
