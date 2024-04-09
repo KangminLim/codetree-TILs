@@ -7,7 +7,7 @@ for m in range(1,M+1):
 is_live = [True] * (M+1)
 is_live[0] = False
 
-di,dj = [0,0,-1,1], [-1,1,0,0]
+di,dj = [0,0,1,-1], [-1,1,0,0]
 opp = {0:1, 1:0, 2:3, 3:2}
 tree = set()
 tm = (N+1)//2
@@ -19,6 +19,7 @@ mx_cnt, cnt, flag, val = 1,0,0,1
 for _ in range(H):
     i,j = map(int,input().split())
     tree.add((i,j))
+narr = [[0] * (N+2) for _ in range(N+2)]
 
 ans = 0
 
@@ -27,18 +28,20 @@ for k in range(1,K+1):
     for i in people:
         if not is_live[i]: continue
         ci,cj,cd = people[i]
-        if abs(ti-ci) + abs(tj-cj) <= 3:
+        if abs(ci-ti) + abs(cj-tj) <= 3:
             ni,nj = ci+di[cd], cj+dj[cd]
             if 1<=ni<=N and 1<=nj<=N:
                 if (ni,nj) != (ti,tj):
                     people[i] = [ni,nj,cd]
             else:
-                cd = opp[cd]
+                nd = opp[cd]
                 ni,nj = ci+di[cd], cj+dj[cd]
                 if (ni,nj) != (ti,tj):
-                    people[i] = [ni,nj,cd]
+                    people[i] = [ni,nj,nd]
     # [2] 술래의 이동
     cnt += 1
+    narr[ti][tj] = k
+
     ti,tj = ti+tdi[td], tj+tdj[td]
 
     if (ti,tj) == (1,1):
