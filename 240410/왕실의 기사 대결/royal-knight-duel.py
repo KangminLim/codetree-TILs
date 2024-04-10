@@ -32,7 +32,7 @@ def push_knight(start,dr):
             if idx not in pset:
                 ti,tj,th,tw,tk = knight[idx]
 
-                if ni <= ti+th+1 and ti <= ni+ch+1 and nj <= tj+tw+1 and tj <= nj+cw+1:
+                if ni <= ti+th-1 and ti <= ni+ch-1 and nj <= tj+tw-1 and tj <= nj+cw-1:
                     q.append(idx)
                     pset.add(idx)
 
