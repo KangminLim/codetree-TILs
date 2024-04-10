@@ -44,11 +44,11 @@ for turn in range(1,K+1):
                     hider[idx] = [ni,nj,nd]
     # 술래 이동
     cnt += 1
-    # arr[ti][tj] = turn
+    arr[ti][tj] = turn
     ti,tj = ti+tdi[td], tj+tdj[td]
 
     if (ti,tj) == (1,1):
-        mx_cnt, cnt, flag, val = 5, 1, 1, -1
+        mx_cnt, cnt, flag, val = N, 1, 1, -1
         td = 2
     elif (ti,tj) == (tm,tm):
         mx_cnt, cnt, flag, val = 1, 0, 0, 1
@@ -65,7 +65,7 @@ for turn in range(1,K+1):
                 flag = 1
 
     # 술래 잡기
-    pset = set(((ti,tj),(ti+di[td],tj+dj[td]),(ti+di[td]*2,tj+dj[td]*2)))
+    pset = set(((ti,tj),(ti+tdi[td],tj+tdj[td]),(ti+tdi[td]*2,tj+tdj[td]*2)))
 
     for idx in hider:
         if not is_live[idx] : continue
