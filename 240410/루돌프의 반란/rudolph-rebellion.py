@@ -23,7 +23,7 @@ def santa_move(cur,ci,cj,di,dj,mul):
 
     while q:
         cur,ci,cj,mul = q.popleft()
-        ni,nj = ci+di*mul , cj +dj*mul
+        ni,nj = ci+di*mul , cj+dj*mul
 
         if 0<=ni<N and 0<=nj<N:
             if arr[ni][nj] > 0:
@@ -48,61 +48,65 @@ for turn in range(1,M+1):
         si,sj = santa[idx]
         dist = (ri-si)**2 + (rj-sj)**2
         if min_dist>dist:
+            min_dist = dist
             tlst = [(si,sj,idx)]
         elif min_dist == dist:
             tlst.append((si,sj,idx))
 
-        if len(tlst)>1:
-            tlst.sort(reverse=True)
+    if len(tlst)>1:
+        tlst.sort(reverse=True)
 
-        si,sj,mn_num = tlst[0]
+    si,sj,mn_num = tlst[0]
 
-        rdi,rdj = 0,0
-        if ri>si : rdi=-1
-        elif ri<si : rdi = 1
+    rdi,rdj = 0,0
+    if ri>si : rdi= -1
+    elif ri<si : rdi = 1
 
-        if rj > sj : rdj = -1
-        elif ri < si : rdi = 1
+    if rj > sj : rdj = -1
+    elif rj < sj : rdj = 1
 
-        arr[ri][rj] = 0
-        ri,rj = ri+rdi,rj+rdj
-        arr[ri][rj] = -1
+    arr[ri][rj] = 0
+    ri,rj = ri+rdi,rj+rdj
+    arr[ri][rj] = -1
 
-        if (ri,rj) == (si,sj):
-            scores[mn_num] += C
-            is_stun[mn_num] = turn + 2
-            santa_move(mn_num,si,sj,rdi,rdj,C)
+    if (ri,rj) == (si,sj):
+        scores[mn_num] += C
+        is_stun[mn_num] = turn + 2
+        santa_move(mn_num,si,sj,rdi,rdj,C)
 
-        # 산타 움직임
-        for idx in range(1,P+1):
-            if not is_live[idx]: continue
-            if is_stun[idx] > turn: continue
+    # 산타 움직임
+    for idx in range(1,P+1):
+        if not is_live[idx]: continue
+        if is_stun[idx] > turn: continue
 
-            ci,cj = santa[idx]
-            t_dist = (ri-ci)**2 + (rj-cj)**2
-            mlst = []
+        ci,cj = santa[idx]
+        t_dist = (ri-ci)**2 + (rj-cj)**2
+        mlst = []
 
-            for di,dj in ((-1,0),(0,1),(1,0),(0,-1)):
-                ni,nj = ci+di,cj+dj
-                dist = (ri-ni)**2 + (rj-nj)**2
-                if 0<=ni<N and 0<=nj<N and arr[ni][nj] <= 0 and t_dist > dist:
-                    t_dist = dist
-                    mlst.append((ni,nj,di,dj))
+        for di,dj in ((-1,0),(0,1),(1,0),(0,-1)):
+            ni,nj = ci+di,cj+dj
+            dist = (ri-ni)**2 + (rj-nj)**2
+            if 0<=ni<N and 0<=nj<N and arr[ni][nj] <= 0 and t_dist > dist:
+                t_dist = dist
+                mlst.append((ni,nj,di,dj))
 
-            if not mlst : continue
+        if not mlst : continue
 
-            ni,nj,di,dj = mlst[-1]
+        ni,nj,di,dj = mlst[-1]
 
-            arr[ci][cj] = 0
+        arr[ci][cj] = 0
 
-            if (ni,nj) == (ri,rj):
-                is_stun[idx] = turn + 2
-                scores[idx] += D
-                santa_move(idx,ni,nj,-di,-dj,D)
+        if (ni,nj) == (ri,rj):
+            is_stun[idx] = turn + 2
+            scores[idx] += D
+            santa_move(idx,ni,nj,-di,-dj,D)
 
-            else:
-                arr[ni][nj] = idx
-                santa[idx] = [ni,nj]
+        else:
+            arr[ni][nj] = idx
+            santa[idx] = [ni,nj]
 
+    for i in range(1,P+1):
+        if is_live[i]:
+            scores[i] += 1
 
 print(*scores[1:])
