@@ -45,11 +45,11 @@ for turn in range(1,K+1):
         if arr[ni][nj] == 0: # 빈칸이면
             if gun[ni][nj]: # 총이 있나?
                 mx = max(gun[ni][nj])
-                if cg > 0:
-                    if mx > cg:
+                if mx > cg:
+                    if cg > 0:
                         gun[ni][nj].append(cg)
-                gun[ni][nj].remove(mx)
-                cg = mx
+                    gun[ni][nj].remove(mx)
+                    cg = mx
             arr[ni][nj] = idx
             players[idx] = [ni,nj,cd,cp,cg,cs]
 
