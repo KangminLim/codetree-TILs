@@ -42,7 +42,7 @@ for k in range(1,K+1):
     if (ti,tj) == (1,1):
         mx_cnt, cnt, flag, val = N, 1, 1, -1
         td = 2
-    elif (ti,tj) == (td+1,td+1):
+    elif (ti,tj) == (tm,tm):
         mx_cnt, cnt, flag, val = 1, 0, 0, 1
         td = 0
     else:
