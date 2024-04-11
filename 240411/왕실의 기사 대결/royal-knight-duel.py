@@ -27,7 +27,7 @@ def push_knights(start,dr):
             # 이동한 위치에서 함정 피해 or 벽
         for i in range(ni,ni+h):
             for j in range(nj,nj+w):
-                if not (0<=ni<N and 0<=nj<N) : return
+                if not (0<=i<L and 0<=j<L) : return
                 # 벽을 만나면 모든 기사 이동 불가
                 if arr[i][j] == 2:
                     return
