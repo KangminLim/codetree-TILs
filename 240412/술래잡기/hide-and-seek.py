@@ -5,9 +5,9 @@ for m in range(1,M+1):
     hider[m] = [i,j,dr]
 is_live = [True] * (M+1)
 is_live[0] = False
-di,dj = [0,0,-1,1], [-1,1,0,0]
+di,dj = [0,0,1,-1], [-1,1,0,0]
 opp = {0:1, 1:0, 2:3, 3:2}
-
+narr= [[0]*(N+2) for _ in range(N+2)]
 tree = set()
 for _ in range(H):
     i,j = map(int,input().split())
@@ -36,12 +36,13 @@ for k in range(1,K+1):
 
     #  술래 이동
     cnt += 1
+    narr[ti][tj] = k
     ti,tj = ti+tdi[td], tj + tdj[td]
 
     if (ti,tj) == (1,1):
         mx_cnt, cnt, flag, val = N, 1, 1, -1
         td = 2
-    elif (ti,tj) == (td,td):
+    elif (ti,tj) == (td+1,td+1):
         mx_cnt, cnt, flag, val = 1, 0, 0, 1
         td = 0
     else:
