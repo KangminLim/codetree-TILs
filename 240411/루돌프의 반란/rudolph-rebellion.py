@@ -42,7 +42,7 @@ def santa_move(cur,ci,cj,di,dj,mul):
 for turn in range(1,M+1):
     if is_live.count(True) == 0 : break
     mn_dist = 2*N**2
-    for idx in santa:
+    for idx in range(1,P+1):
         if not is_live[idx] : continue
         si,sj = santa[idx]
         dist = (ri-si)**2 + (rj-sj)**2
@@ -74,7 +74,7 @@ for turn in range(1,M+1):
         is_stun[mn_idx] = turn + 2
         santa_move(mn_idx,si,sj,rdi,rdj,C)
 
-    for idx in santa:
+    for idx in range(1,P+1):
         if not is_live[idx] : continue
         if is_stun[idx] > turn : continue
 
