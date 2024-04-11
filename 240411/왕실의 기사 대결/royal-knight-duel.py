@@ -23,16 +23,17 @@ def push_knights(start,dr):
         cur = q.popleft()
         ci,cj,h,w,k = knight[cur]
         ni,nj = ci+di[dr], cj+dj[dr]
-
-        # 이동한 위치에서 함정 피해 or 벽
-        for i in range(ni,ni+h):
-            for j in range(nj,nj+w):
-                # 벽을 만나면 모든 기사 이동 불가
-                if arr[i][j] == 2:
-                    return
-                # w x h 함정의 수만큼 피해 입음
-                elif arr[i][j] == 1:
-                    damage[cur] += 1
+        
+        if 0<=ni<N and 0<=nj<N: # 범위 내
+            # 이동한 위치에서 함정 피해 or 벽
+            for i in range(ni,ni+h):
+                for j in range(nj,nj+w):
+                    # 벽을 만나면 모든 기사 이동 불가
+                    if arr[i][j] == 2:
+                        return
+                    # w x h 함정의 수만큼 피해 입음
+                    elif arr[i][j] == 1:
+                        damage[cur] += 1
 
         # 이동한 위치와 겹치는 기사가 있는지 확인
         for idx in knight:
