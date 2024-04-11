@@ -40,6 +40,7 @@ def santa_move(cur,ci,cj,di,dj,mul):
             return
 
 for turn in range(1,M+1):
+    if is_live.count(True) == 0 : break
     mn_dist = 2*N**2
     for idx in santa:
         if not is_live[idx] : continue
