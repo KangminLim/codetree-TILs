@@ -56,7 +56,7 @@ for T in range(1,K+1):
             enemy = arr[ni][nj]
             ei,ej,ed,ep,eg,es = players[enemy]
 
-            if (cp+cg) > (ep+eg) or ((cp+cg)==(ep+eg) and cp>eg):
+            if (cp+cg) > (ep+eg) or ((cp+cg)==(ep+eg) and cp>ep):
                 cs += (cp+cg) - (ep+eg)
                 lose(enemy,ei,ej,ed,ep,0,es)
 
