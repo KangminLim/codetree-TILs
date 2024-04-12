@@ -20,7 +20,7 @@ def find_square(arr):
                 mn = min(mn, max(abs(ei-i),abs(ej-j)))
     for si in range(N-mn):
         for sj in range(N-mn):
-            if si<=ei<=si+mn and sj<=ej<=ej+mn:
+            if si<=ei<=si+mn and sj<=ej<=sj+mn:
                 for i in range(si,si+mn+1):
                     for j in range(sj,sj+mn+1):
                         if -11<arr[i][j]<0:
@@ -46,6 +46,9 @@ for _ in range(1,K+1):
                         break
     arr = narr
 
+    if cnt == 0:
+        break
+
     # 미로 회전
     # 한 명 이상의 참가자와 출구를 포함한 가장 작은 정사각형 찾기
     si,sj,L = find_square(arr)
@@ -62,6 +65,7 @@ for _ in range(1,K+1):
         for j in range(N):
             if arr[i][j] == -11:
                 ei,ej = i, j
+
 
 print(-ans)
 print(ei+1,ej+1)
