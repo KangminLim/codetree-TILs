@@ -19,22 +19,23 @@ def push_knight(start,dr):
         cur = q.popleft()
         ci,cj,h,w,k = knight[cur]
         ni,nj = ci+di[dr], cj+dj[dr]
-        # 기사의 함정과 벽 탐색
-        for i in range(ni,ni+h):
-            for j in range(nj,nj+w):
-                if arr[i][j] == 1: # 함정을 만나면
-                    damage[cur] += 1
-                elif arr[i][j] == 2: # 벽을 만나면, 모든 명령 취소
-                    return
+        if 1<=ni<=N and 1<=nj<=N:
+            # 기사의 함정과 벽 탐색
+            for i in range(ni,ni+h):
+                for j in range(nj,nj+w):
+                    if arr[i][j] == 1: # 함정을 만나면
+                        damage[cur] += 1
+                    elif arr[i][j] == 2: # 벽을 만나면, 모든 명령 취소
+                        return
 
-        for idx in knight:
-            if idx in kset: continue
+            for idx in knight:
+                if idx in kset: continue
 
-            ti,tj,th,tw,_ = knight[idx]
+                ti,tj,th,tw,_ = knight[idx]
 
-            if ni <= ti+th-1 and nj <= tj+tw-1 and ti <= ni+h-1 and tj <= nj+w-1:
-                q.append(idx)
-                kset.add(idx)
+                if ni <= ti+th-1 and nj <= tj+tw-1 and ti <= ni+h-1 and tj <= nj+w-1:
+                    q.append(idx)
+                    kset.add(idx)
 
     damage[start] = 0
 
