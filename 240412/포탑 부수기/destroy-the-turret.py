@@ -74,7 +74,7 @@ for T in range(1,K+1):
     cnt = M*N
     for lst in arr:
         cnt -= lst.count(0)
-    if cnt == 0:
+    if cnt <= 1:
         break
 
     for i in range(N):
