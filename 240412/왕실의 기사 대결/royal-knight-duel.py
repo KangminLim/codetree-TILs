@@ -1,5 +1,5 @@
 L, N, Q = map(int,input().split())
-arr = [[1]*(L+2)] + [[1] + list(map(int,input().split())) + [1] for _ in range(L)] + [[1] * (L+2)]
+arr = [[2]*(L+2)] + [[2] + list(map(int,input().split())) + [2] for _ in range(L)] + [[2] * (L+2)]
 knight = {}
 init_k = [0] * (N+1)
 for idx in range(1,N+1):
@@ -19,7 +19,6 @@ def push_knight(start,dr):
         cur = q.popleft()
         ci,cj,h,w,k = knight[cur]
         ni,nj = ci+di[dr], cj+dj[dr]
-        if not (1<=ni<=N and 1<=nj<=N): return
         # 기사의 함정과 벽 탐색
         for i in range(ni,ni+h):
             for j in range(nj,nj+w):
