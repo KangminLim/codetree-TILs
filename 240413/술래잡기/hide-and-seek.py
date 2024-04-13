@@ -8,7 +8,6 @@ is_live[0] = False
 for m in range(1,M+1):
     i,j,dr = map(int,input().split())
     hider[m] = [i,j,dr]
-    arr[i][j] = m
 ans = 0
 tree = set()
 for _ in range(H):
@@ -32,10 +31,12 @@ for t in range(1,K+1):
                     hider[idx] = [ni,nj,cd]
             else:
                 nd = opp[cd]
+                ni,nj = ci+di[nd],cj+dj[nd]
                 if (ni,nj) != (ti,tj):
                     hider[idx] = [ni,nj,nd]
 
     cnt += 1
+    arr[ti][tj] = t
     ti,tj = ti+tdi[td], tj+tdj[td]
 
     if (ti,tj) == (1,1):
