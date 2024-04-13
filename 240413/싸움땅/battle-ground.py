@@ -24,6 +24,7 @@ def lose(num,ci,cj,cd,cp,cg,cs):
         if 0<=ni<N and 0<=nj<N and arr[ni][nj] ==0:
             if gun[ni][nj]:
                 cg = max(gun[ni][nj])
+                gun[ni][nj].remove(cg)
             arr[ni][nj] = num
             players[num] = [ni,nj,(cd+k)%4,cp,cg,cs]
             return
