@@ -1,5 +1,5 @@
 N, M = map(int,input().split())
-arr = [[1] * (N+2)] + [[1] + list(map(int,input().split())) + [1] for _ in range(N)] + [[1] * (N+2)]
+arr = [[1] * (N+2)]+ [[1] + list(map(int,input().split())) +[1] for _ in range(N)] + [[1] * (N+2)]
 basecamp = set()
 for i in range(1,N+1):
     for j in range(1,N+1):
@@ -13,6 +13,7 @@ for idx in range(1,M+1):
     store[idx] = (i,j)
 
 from collections import deque
+
 def find(si,sj,dests):
     q = deque()
     q.append((si,sj))
@@ -21,17 +22,16 @@ def find(si,sj,dests):
     tlst = []
     while q:
         nq = deque()
-        for ci,cj in q:
+        for ci, cj in q:
 
             if (ci,cj) in dests:
                 tlst.append((ci,cj))
 
             else:
-                for ni, nj in ((ci-1,cj),(ci,cj-1),(ci,cj+1),(ci+1,cj)):
-                    if arr[ni][nj] ==0 and not v[ni][nj]:
+                for ni,nj in ((ci-1,cj),(ci,cj-1),(ci,cj+1),(ci+1,cj)):
+                    if arr[ni][nj] == 0 and not v[ni][nj] :
                         nq.append((ni,nj))
                         v[ni][nj] = True
-
         q = nq
 
         if tlst:
@@ -42,30 +42,31 @@ def solve():
     arrived = [0] * (M+1)
     q = deque()
 
-    while q or time ==1:
+    while q or time == 1:
         nq = deque()
-        tlst = []
+        alst = []
         # [1]
         for ci,cj,m in q:
             if arrived[m] == 0:
-                ni,nj = find(store[m][0],store[m][1], set(((ci-1,cj),(ci,cj-1),(ci,cj+1),(ci+1,cj))))
+                ni,nj = find(store[m][0], store[m][1], set(((ci-1,cj),(ci,cj-1),(ci,cj+1),(ci+1,cj))))
                 if (ni,nj) == store[m]:
-                    tlst.append((ni,nj))
                     arrived[m] = time
+                    alst.append((ni,nj))
+
                 else:
                     nq.append((ni,nj,m))
 
         q = nq
+
         # [2]
-        if tlst:
-            for ti,tj in tlst:
-                arr[ti][tj] = 1
+        if alst:
+            for ai, aj in alst:
+                arr[ai][aj] = 1
 
         # [3]
-
-        if time <= M :
-            si,sj = store[time]
-            ei,ej = find(si,sj,basecamp)
+        if time <= M:
+            si, sj = store[time]
+            ei, ej = find(si,sj, basecamp)
             basecamp.remove((ei,ej))
             arr[ei][ej] = 1
             q.append((ei,ej,time))
