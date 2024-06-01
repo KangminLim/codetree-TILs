@@ -27,14 +27,14 @@ def santa_move(cur,ci,cj,cdi,cdj,mul):
             if arr[ni][nj] == 0:
                 santa[cur] = [ni, nj]
                 arr[ni][nj] = cur
-                return
             else:
                 q.append((arr[ni][nj], ni, nj, 1))
                 santa[cur] = [ni, nj]
                 arr[ni][nj] = cur
         else:  # 범위 밖
             live[cur] = False
-            return
+
+
 for turn in range(1,M+1):
     # 모두 탈락하면 게임 끝
     if live.count(True) == 0: break
