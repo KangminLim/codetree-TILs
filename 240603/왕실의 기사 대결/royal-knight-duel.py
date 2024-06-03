@@ -1,11 +1,11 @@
 L, N, Q = map(int,input().split())
-arr = [list(map(int,input().split())) for _ in range(L)]
+arr = [[2] * (L+2) ] + [[2]+ list(map(int,input().split())) + [2] for _ in range(L)] + [[2] * (L+2)]
 knight = {}
 init_k = [0] * (N+1)
 
 for i in range(1,N+1):
     r,c,h,w,k = map(int,input().split())
-    knight[i] = [r-1,c-1,h,w,k]
+    knight[i] = [r,c,h,w,k]
     init_k[i] = k
 di,dj = [-1,0,1,0], [0,1,0,-1]
 
@@ -22,7 +22,7 @@ def knight_duel(idx,dr):
         ci,cj,ch,cw,ck = knight[cur_num]
         # 2.1 기사 이동
         ni,nj = ci+di[dr], cj+dj[dr]
-        if not (0<=ni<N and 0<=nj<N): return
+        # if not (0<=ni<N and 0<=nj<N): return
         # 2.3 이동한 위치에서 함정 혹은 벽 유무 확인
         for i in range(ni,ni+ch):
             for j in range(nj,nj+cw):
@@ -35,7 +35,7 @@ def knight_duel(idx,dr):
         for num in knight:
             if num not in dset:
                 ti,tj,th,tw,tk = knight[num]
-                if ti<=ni<ti+th or tj<=nj<tj+tw or ni<=ti<ni+ch or nj<=tj<nj+cw:
+                if ti<=ni+ch-1 and tj<=nj+cw-1 and ni<=ti+th-1 and nj<=tj+tw-1:
                     q.append(num)
                     dset.add(num)
 
