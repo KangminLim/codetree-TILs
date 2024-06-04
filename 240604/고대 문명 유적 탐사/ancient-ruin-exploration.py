@@ -175,11 +175,11 @@ for _ in range(K):
         arr = arr1
         tg = ag
         mx = a
-    elif b > max(a,c): # b 가 가장 큼r
+    elif b >= c and b > a : # b 가 가장 큼r
         arr = arr2
         tg = bg
         mx = b
-    elif c > max(a,b): # c가 가장 큼
+    else: # c가 가장 큼
         arr = arr3
         tg = cg
         mx = c
