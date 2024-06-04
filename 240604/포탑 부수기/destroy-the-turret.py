@@ -59,7 +59,7 @@ for T in range(1,K+1):
             if arr[i][j] == 0: continue  # 부서진 포탑 제외
             if arr[i][j] > mx or (arr[i][j] == mx and turn[i][j] < mn_turn) or \
                 (arr[i][j] == mx and turn[i][j] == mn_turn and ei + ej > i + j) or \
-                (arr[i][j] == mx and turn[i][j] == mn_turn and ei + ej == i + j and ej < j):
+                (arr[i][j] == mx and turn[i][j] == mn_turn and ei + ej == i + j and ej > j):
                 mx, mn_turn, ei, ej = arr[i][j], turn[i][j], i, j
 
     arr[si][sj] += (N+M)
