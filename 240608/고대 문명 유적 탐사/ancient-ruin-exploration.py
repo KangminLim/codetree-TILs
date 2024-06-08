@@ -169,16 +169,12 @@ for _ in range(K):
     arr3, c, cg = simulation270(arr,0)
 
     if a < 3 and b < 3 and c < 3 : break
-    # if a == 0 : break
-    # arr = arr1
-    # tg = ag
-    # mx = a
 
     if a >= max(b,c): # a가 가장 큼
         arr = arr1
         tg = ag
         mx = a
-    elif b > c : # b 가 가장 큼
+    elif b > a and b >= c : # b 가 가장 큼
         arr = arr2
         tg = bg
         mx = b
