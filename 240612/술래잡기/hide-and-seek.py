@@ -64,7 +64,7 @@ for turn in range(1,K+1):
     for i in range(1,M+1):
         if i in hider:
             ci,cj,_ = hider[i]
-            if (ci,cj) not in set(((ti,tj),(ti+tdi[tdr],tj+tdj[tdr]),(ti+2*tdi[tdr],tj+2*tdj[tdr]))) or (ci,cj) in tree: continue
+            if (ci,cj) not in ((ti,tj),(ti+tdi[tdr],tj+tdj[tdr]),(ti+2*tdi[tdr],tj+2*tdj[tdr])) or (ci,cj) in tree: continue
             else:
                 ans += turn
                 hider.pop(i)
