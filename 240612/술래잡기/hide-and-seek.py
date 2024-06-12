@@ -33,6 +33,7 @@ for turn in range(1,K+1):
                 hider[idx] = [ni,nj,cd]
         else: # 범위 밖
             nd = opp[cd]
+            ni, nj = ci + di[nd], cj + dj[nd]
             if (ni,nj) == (ti,tj):
                 hider[idx] = [ci,cj,nd]
             else:
@@ -41,7 +42,7 @@ for turn in range(1,K+1):
     arr[ti][tj] = turn  # 디버깅용
     ti,tj = ti+tdi[tdr], tj+tdj[tdr]
     cnt += 1
-    # 1,1 2, 2, 3,3, 4,4 5,5
+    # 1,1 2,2, 3,3, 4,4 5,5 : 달팽이 이동
     if (ti,tj) == (0,0):
         mx_cnt, cnt, flag, val = N, 1, 1, -1
         tdr = 2
@@ -63,7 +64,8 @@ for turn in range(1,K+1):
     for i in range(1,M+1):
         if i in hider:
             ci,cj,_ = hider[i]
-            if (ci,cj) in ((ti,tj),(ti+tdi[tdr],tj+tdj[tdr]),(ti+2*tdi[tdr],tj+2*tdj[tdr])) and (ci,cj) not in tree:
+            if (ci,cj) not in set(((ti,tj),(ti+tdi[tdr],tj+tdj[tdr]),(ti+2*tdi[tdr],tj+2*tdj[tdr]))) or (ci,cj) in tree: continue
+            else:
                 ans += turn
                 hider.pop(i)
 
