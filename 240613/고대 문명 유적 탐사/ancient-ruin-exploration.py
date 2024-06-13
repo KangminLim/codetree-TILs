@@ -48,9 +48,9 @@ def bfs(si,sj,arr,g,v):
 def simul90(arr):
     mx = 0
     marr = []
-    for si in range(3):
-        for sj in range(3):
-            arr90 = rot90(sj,si,arr)
+    for sj in range(3):
+        for si in range(3):
+            arr90 = rot90(si,sj,arr)
             sm = 0
             ag = []
             v = [[False] * 5 for _ in range(5)]
@@ -61,7 +61,7 @@ def simul90(arr):
                         tmp = bfs(i,j,arr90,ag,v)
                         if tmp >= 3:
                             sm += tmp
-            if sm >= mx:
+            if sm > mx:
                 mx = sm
                 marr = arr90
                 mg = []
@@ -77,9 +77,9 @@ def simul90(arr):
 def simul180(arr):
     mx = 0
     marr = []
-    for si in range(3):
-        for sj in range(3):
-            arr180 = rot180(sj,si,arr)
+    for sj in range(3):
+        for si in range(3):
+            arr180 = rot180(si,sj,arr)
             sm = 0
             bg = []
             v = [[False] * 5 for _ in range(5)]
@@ -90,7 +90,7 @@ def simul180(arr):
                         tmp = bfs(i,j,arr180,bg,v)
                         if tmp >= 3:
                             sm += tmp
-            if sm >= mx:
+            if sm > mx:
                 mx = sm
                 marr = arr180
                 mg = []
@@ -119,7 +119,7 @@ def simul270(arr):
                         tmp = bfs(i, j, arr270, cg, v)
                         if tmp >= 3:
                             sm += tmp
-            if sm >= mx:
+            if sm > mx:
                 mx = sm
                 marr = arr270
                 mg = []
