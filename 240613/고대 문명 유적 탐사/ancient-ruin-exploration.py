@@ -5,21 +5,21 @@ from collections import deque
 tq = deque(tlst)
 ans = []
 
-def rot90(sj,si,arr):
+def rot90(si,sj,arr):
     narr = [x[:] for x in arr]
     for i in range(3):
         for j in range(3):
             narr[si+i][sj+j] = arr[si+2-j][sj+i]
     return narr
 
-def rot180(sj,si,arr):
+def rot180(si,sj,arr):
     narr = [x[:] for x in arr]
     for i in range(3):
         for j in range(3):
             narr[si+i][sj+j] = arr[si+2-i][sj+2-j]
     return narr
 
-def rot270(sj,si,arr):
+def rot270(si,sj,arr):
     narr = [x[:] for x in arr]
     for i in range(3):
         for j in range(3):
@@ -36,7 +36,7 @@ def bfs(si,sj,arr,g,v):
     while q:
         ci,cj = q.popleft()
         for ni,nj in ((ci-1,cj),(ci,cj+1),(ci+1,cj),(ci,cj-1)):
-            if 0<=ni<5 and 0<=nj<5 and not v[ni][nj] and arr[ci][cj] == arr[ni][nj]:
+            if 0<=ni<5 and 0<=nj<5 and not v[ni][nj] and arr[ni][nj] == arr[si][sj]:
                 q.append((ni,nj))
                 v[ni][nj] = True
                 g[-1].add((ni,nj))
@@ -48,9 +48,9 @@ def bfs(si,sj,arr,g,v):
 def simul90(arr):
     mx = 0
     marr = []
-    for sj in range(3):
-        for si in range(3):
-            arr90 = rot90(si,sj,arr)
+    for si in range(3):
+        for sj in range(3):
+            arr90 = rot90(sj,si,arr)
             sm = 0
             ag = []
             v = [[False] * 5 for _ in range(5)]
@@ -77,9 +77,9 @@ def simul90(arr):
 def simul180(arr):
     mx = 0
     marr = []
-    for sj in range(3):
-        for si in range(3):
-            arr180 = rot180(si,sj,arr)
+    for si in range(3):
+        for sj in range(3):
+            arr180 = rot180(sj,si,arr)
             sm = 0
             bg = []
             v = [[False] * 5 for _ in range(5)]
@@ -144,7 +144,7 @@ def simul(arr):
                 tmp = bfs(i,j,arr,g,v)
                 if tmp >= 3:
                     sm += tmp
-    if sm >= 3:
+    if sm >=3:
         mg = []
         for tg in g:
             if len(tg) >= 3:
@@ -155,6 +155,8 @@ def simul(arr):
         return
 
 for turn in range(1,K+1):
+    mx = 0
+    mg = []
     # 1. 90도 회전
     a,aarr,ag = simul90(arr)
     # 2. 180도 회전
