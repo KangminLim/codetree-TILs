@@ -50,7 +50,8 @@ def push_knight(start,dr):
 
 for _ in range(Q):
     idx, dr = map(int,input().split())
-    push_knight(idx,dr)
+    if idx in knight:
+        push_knight(idx,dr)
 
 ans = 0
 for i in range(1,N+1):
