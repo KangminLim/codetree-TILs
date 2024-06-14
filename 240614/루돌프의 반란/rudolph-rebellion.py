@@ -40,8 +40,7 @@ def move(idx,si,sj,di,dj,mul):
 for turn in range(1,M+1):
 
     if is_live.count(True) == 0: break
-
-    mn_dist = N*N
+    mn_dist = 2*N*N
     # 가장 가까운 산타 찾기
     for idx in range(1,P+1):
         # 기절한 산타는 out
