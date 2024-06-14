@@ -20,8 +20,8 @@ def find_square(arr):
             if -11 < arr[i][j] < 0: # 사람이면
                 mn = min(mn,max(abs(ei-i),abs(ej-j)))
 
-    for si in range(N):
-        for sj in range(N):
+    for si in range(N-mn):
+        for sj in range(N-mn):
             if si<=ei<=si+mn and sj<=ej<=sj+mn:
                 for i in range(si,si+mn+1):
                     for j in range(sj,sj+mn+1):
