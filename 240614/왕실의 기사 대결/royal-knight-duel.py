@@ -34,7 +34,7 @@ def push_knight(start,dr):
             if i not in fset:
                 ti,tj,th,tw,tk = knight[i]
 
-                if ni<=ti+th or nj<=tj+tw or ti <= ni+ch or tj <= nj+cw:
+                if ni<=ti+th-1 and nj<=tj+tw-1 and ti <= ni+ch-1 and tj <= nj+cw-1:
                     q.append(i)
                     fset.add(i)
 
