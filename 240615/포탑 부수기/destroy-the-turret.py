@@ -8,7 +8,7 @@ def laser(si,sj,ei,ej):
     q = deque()
     q.append((si,sj))
     v = [[[] for _ in range(M)] for _ in range(N)]
-    v[si][sj] = si,sj
+    v[si][sj] = (si,sj)
     D = arr[si][sj]
     while q:
         ci,cj = q.popleft()
@@ -34,29 +34,29 @@ def bomb(si,sj,ei,ej):
     arr[ei][ej] = max(0,arr[ei][ej]-D)
     for di,dj in ((-1,-1),(-1,0),(-1,1),(0,1),(1,1),(1,0),(1,-1),(0,-1)):
         ni,nj = (ei+di)%N, (ej+dj)%M
-        if (ni,ni) != (si,sj):
+        if (ni,nj) != (si,sj):
             arr[ni][nj] = max(0,arr[ni][nj]-D//2)
             fset.add((ni,nj))
 
 for T in range(1,K+1):
     # 1. 공격자 선정 : 부서지지 않은 포탑 중 가장 약한 포탑이 공격자로 선정된다.
-    mn,mn_turn,si,sj = 5001,1001,11,11
+    mn,mn_turn,si,sj = 5001,0,-1,-1
     for i in range(N):
         for j in range(M):
             if arr[i][j] == 0: continue # 부서진 포탑 제외
-            if mn > arr[i][j] or (mn==arr[i][j] and mn_turn > turn[i][j]) and \
-                (mn == arr[i][j] and mn_turn == turn[i][j] and i+j < si+sj) and \
-                (mn == arr[i][j] and mn_turn == turn[i][j] and i + j == si + sj and j < sj):
+            if mn > arr[i][j] or (mn==arr[i][j] and mn_turn < turn[i][j]) or \
+                (mn == arr[i][j] and mn_turn == turn[i][j] and i+j > si+sj) or \
+                (mn == arr[i][j] and mn_turn == turn[i][j] and i + j == si + sj and j > sj):
                 mn,mn_turn,si,sj = arr[i][j],turn[i][j],i,j
 
     # 2. 공격 대상 선정 : 자신을 제외한 가장 강한 포탑 선정
-    mx, mx_turn, ei, ej = 0, 0, 3, 3
+    mx, mx_turn, ei, ej = -1, 1001, 0, 0
     for i in range(N):
         for j in range(M):
             if arr[i][j] == 0: continue  # 부서진 포탑 제외
-            if mx < arr[i][j] or (mx == arr[i][j] and mx_turn < turn[i][j]) and \
-                    (mx == arr[i][j] and mx_turn == turn[i][j] and i + j > ei + ej) and \
-                    (mx == arr[i][j] and mx_turn == turn[i][j] and i + j == ei + ej and j > ej):
+            if mx < arr[i][j] or (mx == arr[i][j] and mx_turn > turn[i][j]) or \
+                    (mx == arr[i][j] and mx_turn == turn[i][j] and i + j < ei + ej) or \
+                    (mx == arr[i][j] and mx_turn == turn[i][j] and i + j == ei + ej and j < ej):
                 mx, mx_turn, ei, ej = arr[i][j], turn[i][j], i, j
 
     turn[si][sj] = T
@@ -76,7 +76,7 @@ for T in range(1,K+1):
 
     for i in range(N):
         for j in range(M):
-            if arr[i][j] != 0 and (i,j) not in fset:
+            if arr[i][j] > 0 and (i,j) not in fset:
                 arr[i][j] += 1
 
 print(max(map(max,arr)))
