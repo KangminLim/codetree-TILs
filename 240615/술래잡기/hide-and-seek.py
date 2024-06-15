@@ -48,7 +48,7 @@ for turn in range(1,K+1):
         mx_cnt, cnt, flag, val = N, 1, 1, -1
         td = 2
 
-    elif (ti,tj) == (M,M):
+    elif (ti,tj) == (tM,tM):
         mx_cnt, cnt, flag, val = 1, 0, 0, 1
         td = 0
 
