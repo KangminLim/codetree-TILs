@@ -17,21 +17,23 @@ from collections import deque
 def find(si,sj,dests):
     q = deque()
     q.append((si,sj))
-    # v = [[False] * N for _ in range(N)]
-    # v[si][sj] = True
-
+    v = [[False] * (N+2) for _ in range(N+2)]
+    v[si][sj] = True
+    tlst = []
     while q:
         nq = deque()
         for ci,cj in q:
-
             if (ci, cj) in dests:
-                return (ci, cj)
-
+                tlst.append((ci,cj))
             else:
                 for ni,nj in ((ci-1,cj),(ci,cj-1),(ci,cj+1),(ci+1,cj)):
-                    nq.append((ni,nj))
-                    # v[ni][nj] = True
+                    if arr[ni][nj] == 0 and not v[ni][nj]:
+                        nq.append((ni,nj))
+                        v[ni][nj] = True
         q = nq
+
+        if tlst:
+            return sorted(tlst)[0]
 
 def solve():
     time = 1
@@ -60,7 +62,7 @@ def solve():
 
         # 3. time <= m : 자신이 가고 싶은 편의점과 가장 가까이 있는 베이스 컘프에 이동
         if time <= M:
-            si,sj = store[M]
+            si,sj = store[time]
             ei,ej = find(si,sj,basecamp)
             basecamp.remove((ei,ej))
             arr[ei][ej] = 1
