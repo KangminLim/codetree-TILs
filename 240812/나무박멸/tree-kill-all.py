@@ -61,6 +61,8 @@ for turn in range(1,M+1):
                 if tmp > mx:
                     mx = max(mx,tmp)
                     si,sj = i,j
+    if mx == 0:
+        break
     ans += mx
     # 3.2 뿌리기
     if (si,sj) != (N,N):
