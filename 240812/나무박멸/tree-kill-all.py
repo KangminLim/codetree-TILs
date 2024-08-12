@@ -45,8 +45,8 @@ for turn in range(1,M+1):
     # 3.1 k칸 만큼 대각선으로 전파해서 최댓값 구하기
     mx = 0
     si,sj = N,N
-    for j in range(N):
-        for i in range(N):
+    for i in range(N):
+        for j in range(N):
             if arr[i][j] > 0:
                 tmp = arr[i][j]
                 # 4방향 k만큼 전파
@@ -55,6 +55,7 @@ for turn in range(1,M+1):
                         ni, nj = i + di * mul, j + dj * mul
                         # 범위 벗어나거나 벽이거나 나무가 없으면 break
                         if not (0<=ni<N and 0<=nj<N) or -1001 <= arr[ni][nj] < 0:
+                        # if not (0 <= ni < N and 0 <= nj < N) or arr[ni][nj] == -1001:
                             break
                         tmp += arr[ni][nj]
                 if tmp > mx:
@@ -68,7 +69,11 @@ for turn in range(1,M+1):
             for mul in range(1, K + 1):
                 ni, nj = si + di * mul, sj + dj * mul
                 # 범위 벗어나거나 벽이거나 나무가 없으면 break
-                if not (0 <= ni < N and 0 <= nj < N) or -1001 <= arr[ni][nj] < 0:
+                if not (0 <= ni < N and 0 <= nj < N) or arr[ni][nj] == -1001:
                     break
+                if arr[ni][nj] == 0:
+                    arr[ni][nj] = -(C + 1)
+                    break
+
                 arr[ni][nj] = -(C+1)
 print(ans)
