@@ -68,7 +68,7 @@ for turn in range(1,M+1):
             for mul in range(1, K + 1):
                 ni, nj = si + di * mul, sj + dj * mul
                 # 범위 벗어나거나 벽이거나 나무가 없으면 break
-                if not (0 <= ni < N and 0 <= nj < N) or arr[ni][nj] == -1001:
+                if not (0 <= ni < N and 0 <= nj < N) or -1001 <= arr[ni][nj] < 0:
                     break
                 arr[ni][nj] = -(C+1)
 print(ans)
