@@ -13,7 +13,6 @@ for turn in range(1,M+1):
         for j in range(N):
             if -1001<arr[i][j]<0:
                 arr[i][j] += 1
-    # print(arr)
 
     # 1. 인접한 나무가 있는 수 구하기
     # 1.1 기존 나무 set 구하기
@@ -27,7 +26,6 @@ for turn in range(1,M+1):
                     if 0<=ni<N and 0<=nj<N and arr[ni][nj] > 0:
                         cnt += 1
                 arr[i][j] += cnt
-    # print(arr)
 
     # 2. 기존에 있었던 나무들에서 인접한 4개의 칸 중 벽, 다른 나무, 제초제 모두 없는 칸에 번식을 진행
     for i in range(N):
@@ -64,12 +62,13 @@ for turn in range(1,M+1):
                     si,sj = i,j
     ans += mx
     # 3.2 뿌리기
-    arr[si][sj] = -(C+1)
-    for di, dj in ((-1, -1), (-1, 1), (1, -1), (1, 1)):
-        for mul in range(1, K + 1):
-            ni, nj = si + di * mul, sj + dj * mul
-            # 범위 벗어나거나 벽이거나 나무가 없으면 break
-            if not (0 <= ni < N and 0 <= nj < N) or arr[ni][nj] == -1001:
-                break
-            arr[ni][nj] = -(C+1)
+    if (si,sj) != (N,N):
+        arr[si][sj] = -(C+1)
+        for di, dj in ((-1, -1), (-1, 1), (1, -1), (1, 1)):
+            for mul in range(1, K + 1):
+                ni, nj = si + di * mul, sj + dj * mul
+                # 범위 벗어나거나 벽이거나 나무가 없으면 break
+                if not (0 <= ni < N and 0 <= nj < N) or arr[ni][nj] == -1001:
+                    break
+                arr[ni][nj] = -(C+1)
 print(ans)
