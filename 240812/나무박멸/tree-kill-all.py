@@ -4,14 +4,14 @@ arr = [list(map(int,input().split())) for _ in range(N)]
 for i in range(N):
     for j in range(N):
         if arr[i][j] == -1:
-            arr[i][j] = -10000
+            arr[i][j] = -1001
 ans = 0
 # M년동안 박멸 진행
 for turn in range(1,M+1):
     # 0. 제초제 갱신
     for i in range(N):
         for j in range(N):
-            if arr[i][j] != -10000 and arr[i][j]<0:
+            if -1001<arr[i][j]<0:
                 arr[i][j] += 1
 
     # 1. 인접한 나무가 있는 수 구하기
@@ -54,7 +54,7 @@ for turn in range(1,M+1):
                     for mul in range(1, K + 1):
                         ni, nj = i + di * mul, j + dj * mul
                         # 범위 벗어나거나 벽이거나 나무가 없으면 break
-                        if not (0<=ni<N and 0<=nj<N) or arr[ni][nj] == -10000 and arr[ni][nj]<0:
+                        if not (0<=ni<N and 0<=nj<N) or -1001 <= arr[ni][nj] < 0:
                         # if not (0 <= ni < N and 0 <= nj < N) or arr[ni][nj] == -1001:
                             break
                         tmp += arr[ni][nj]
@@ -71,7 +71,7 @@ for turn in range(1,M+1):
             for mul in range(1, K + 1):
                 ni, nj = si + di * mul, sj + dj * mul
                 # 범위 벗어나거나 벽이거나 나무가 없으면 break
-                if not (0 <= ni < N and 0 <= nj < N) or arr[ni][nj] == -10000:
+                if not (0 <= ni < N and 0 <= nj < N) or arr[ni][nj] == -1001:
                     break
                 if arr[ni][nj] == 0:
                     arr[ni][nj] = -(C + 1)
