@@ -45,8 +45,8 @@ for turn in range(1,M+1):
     # 3.1 k칸 만큼 대각선으로 전파해서 최댓값 구하기
     mx = 0
     si,sj = N,N
-    for i in range(N):
-        for j in range(N):
+    for j in range(N):
+        for i in range(N):
             if arr[i][j] > 0:
                 tmp = arr[i][j]
                 # 4방향 k만큼 전파
