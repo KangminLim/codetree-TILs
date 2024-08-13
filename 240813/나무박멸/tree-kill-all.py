@@ -24,7 +24,7 @@ for _ in range(1,M+1):
                     if arr[ni][nj] > 0: # 인접한 네 개의 칸 중 나무가 있는 칸의 수만큼 나무가 성장한다.
                         narr[ni][nj] += 1
     arr = narr
-
+    print('')
     # 2. 기존에 있었던 나무들은 인접한 4개의 칸 중 벽, 다른 나무, 제초제 모두 없는 칸에 번식을 진행한다.
     narr = [x[:] for x in arr]
 
@@ -70,7 +70,8 @@ for _ in range(1,M+1):
         for mul in range(1, K + 1):
             ni, nj = si + di * mul, sj + dj * mul
             if arr[ni][nj] <= 0:  # 나무가 아니면 뿌리기 취소
-                narr[ni][nj] = -(C+1)
+                if arr[ni][nj] >= -(C+1): # 제초제보다 크면 뿌리기 
+                    narr[ni][nj] = -(C+1)
                 break
             else:
                 narr[ni][nj] = -(C+1)
