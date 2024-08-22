@@ -62,15 +62,27 @@ for turn in range(1,T+1):
                                 fi,fj,si,sj = t1pi,t1pj,t2pi, t2pj
                                 mpi, mpj = t3pi, t3pj
     pi, pj = mpi, mpj
-    if arr[fi][fj] > 0:
+    if mx == 0:
+        for i in range(4):
+            t1pi, t1pj = pi + di[i], pj + dj[i]
+            if 0 <= t1pi < 4 and 0 <= t1pj < 4:
+                for j in range(4):
+                    if 0 <= t2pi < 4 and 0 <= t2pj < 4:
+                        for k in range(4):
+                            t3pi, t3pj = t2pi + di[k], t2pj + dj[k]
+                            if 0 <= t3pi < 4 and 0 <= t3pj < 4:
+                                pi, pj = t3pi, t3pj
+                                break
+
+    if (fi,fj) != (5,5) and arr[fi][fj] > 0:
         is_live[fi][fj] = turn + 2
-    if arr[si][sj] > 0:
+        arr[fi][fj] = 0
+    if (si,sj) != (5,5) and arr[si][sj] > 0:
         is_live[si][sj] = turn + 2
+        arr[si][sj] = 0
     if arr[pi][pj] > 0:
         is_live[pi][pj] = turn + 2
-    arr[fi][fj] = 0
-    arr[si][sj] = 0
-    arr[pi][pj] = 0
+        arr[pi][pj] = 0
 
     tmlst = []
     # 죽은 몬스터 처리
