@@ -44,11 +44,11 @@ for turn in range(1,T+1):
             first_score = arr[t1pi][t1pj]
             for j in range(4):
                 t2pi, t2pj = t1pi + di[j], t1pj + dj[j]
-                if 0<=t2pi<4 and 0<=t2pj<4 and (t2pi,t2pj) != (t1pi,t1pj):
+                if 0<=t2pi<4 and 0<=t2pj<4 and (t2pi,t2pj) != (pi,pj) and (t2pi,t2pj) != (t1pi,t1pj):
                     second_score = arr[t2pi][t2pj]
                     for k in range(4):
                         t3pi, t3pj = t2pi + di[k], t2pj + dj[k]
-                        if 0<=t3pi<4 and 0<=t3pj<4 and (t3pi,t3pj) != (t2pi,t2pj) and (t3pi,t3pj) != (t1pi,t1pj):
+                        if 0<=t3pi<4 and 0<=t3pj<4 and (t3pi,t3pj) != (pi,pj) and (t3pi,t3pj) != (t2pi,t2pj) and (t3pi,t3pj) != (t1pi,t1pj):
                             third_score = arr[t3pi][t3pj]
                             cnt = first_score + second_score + third_score
                             if cnt > mx:
@@ -56,17 +56,21 @@ for turn in range(1,T+1):
                                 fi,fj,si,sj = t1pi,t1pj,t2pi, t2pj
                                 mpi, mpj = t3pi, t3pj
     pi, pj = mpi, mpj
+    if arr[fi][fj] > 0:
+        is_live[fi][fj] = turn + 2
+    if arr[si][sj] > 0:
+        is_live[si][sj] = turn + 2
+    if arr[pi][pj] > 0:
+        is_live[pi][pj] = turn + 2
     arr[fi][fj] = 0
     arr[si][sj] = 0
     arr[pi][pj] = 0
-    is_live[fi][fj] = turn + 2
-    is_live[si][sj] = turn + 2
-    is_live[pi][pj] = turn + 2
+
     tmlst = []
     # 죽은 몬스터 처리
     for i in range(len(mlst)):
         mi,mj,md = mlst[i]
-        if (mi,mj) != (pi,pj):
+        if (mi,mj) != (fi,fj) and (mi,mj) != (si,sj) and (mi,mj) != (pi,pj):
             tmlst.append((mi,mj,md))
 
     for ti, tj, td in tlst:
