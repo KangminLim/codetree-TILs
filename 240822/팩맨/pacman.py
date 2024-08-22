@@ -57,11 +57,11 @@ for turn in range(1,T+1):
                                 mpi, mpj = t3pi, t3pj
     pi, pj = mpi, mpj
     if arr[fi][fj] > 0:
-        is_live[fi][fj] = turn + 2
+        is_live[fi][fj] = turn + 3
     if arr[si][sj] > 0:
-        is_live[si][sj] = turn + 2
+        is_live[si][sj] = turn + 3
     if arr[pi][pj] > 0:
-        is_live[pi][pj] = turn + 2
+        is_live[pi][pj] = turn + 3
     arr[fi][fj] = 0
     arr[si][sj] = 0
     arr[pi][pj] = 0
