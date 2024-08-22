@@ -45,14 +45,14 @@ for turn in range(1,T+1):
             for j in range(4):
                 t2pi, t2pj = t1pi + di[j], t1pj + dj[j]
                 if 0<=t2pi<4 and 0<=t2pj<4:
-                    if (t2pi,t2pj) != (t1pi,t1pj):
+                    if (t2pi,t2pj) != (pi,pj) and (t2pi,t2pj) != (t1pi,t1pj):
                         second_score = arr[t2pi][t2pj]
                     else:
                         second_score = 0
                     for k in range(4):
                         t3pi, t3pj = t2pi + di[k], t2pj + dj[k]
                         if 0<=t3pi<4 and 0<=t3pj<4:
-                            if (t3pi,t3pj) != (t2pi,t2pj):
+                            if (t3pi,t3pj) != (pi,pj) and (t3pi,t3pj) != (t2pi,t2pj) and (t3pi,t3pj) != (t1pi,t1pj):
                                 third_score = arr[t3pi][t3pj]
                             else:
                                 third_score = 0
