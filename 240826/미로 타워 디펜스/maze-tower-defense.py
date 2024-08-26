@@ -85,6 +85,8 @@ for turn in range(1,M+1):
             ci, cj = HN, HN
 
             tmp_N = len(nlst)
+            if tmp_N > N*N:
+                tmp_N = N*N
             for k in range(tmp_N):
                 ci, cj = ci + di[cd], cj + dj[cd]
                 cnt += 1
