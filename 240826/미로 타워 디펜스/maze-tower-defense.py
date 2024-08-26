@@ -48,6 +48,7 @@ for turn in range(1,M+1):
         cnt = 0
         nlst = []
         tmp = 0
+        print(tlst)
         while len(tlst)>1:
             cur = tlst.popleft()
             if cur == tlst[0]:
@@ -64,7 +65,14 @@ for turn in range(1,M+1):
                     else:
                         nlst.append(cur)
                     cnt = 0
-        nlst.append(tlst.pop())
+        if 2 >= cnt >0:
+            for _ in range(cnt+1):
+                nlst.append(cur)
+        elif cur == tlst[0] and cnt > 2:
+            ans += cur * (cnt+1)
+            break
+        else:
+            nlst.append(tlst.pop())
         if tmp == 0:
             cnt = 0
             nlst = []
