@@ -71,7 +71,6 @@ for turn in range(1,M+1):
                 nlst.append(cur)
         elif cur == tlst[0] and cnt >= 3:
             ans += cur * (cnt+1)
-            break
         else:
             nlst.append(tlst.pop())
         if tmp == 0:
