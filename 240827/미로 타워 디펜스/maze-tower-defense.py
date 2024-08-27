@@ -42,6 +42,8 @@ for turn in range(1,M+1):
                     flag = 0
                 else:
                     flag = 1
+            if (ci, cj) == (0, 0):
+                break
         # 2.1 빈 칸 달팽이 채우기
         # 2.2 tlst 채우기부터 해야함
         ttlst = tlst.copy()
@@ -130,6 +132,8 @@ for turn in range(1,M+1):
                     flag = 0
                 else:
                     flag = 1
+            if (ci, cj) == (0, 0):
+                break
         narr[HN][HN] = -1
         arr = narr
 print(ans)
