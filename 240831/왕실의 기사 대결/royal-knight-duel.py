@@ -24,7 +24,6 @@ def push_knight(start,dr):
 
         for i in range(ni,ni+ch):
             for j in range(nj,nj+cw):
-                print(i,j)
                 if arr[i][j] == 1: # 함정 개수만큼 +1
                     damage[cur] += 1
                 elif arr[i][j] == 2: # 벽을 만나면 이동 취소
