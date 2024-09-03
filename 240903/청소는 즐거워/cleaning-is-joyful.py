@@ -19,8 +19,7 @@ ttdict = { 0: (0,-1),
 # dlst = [(-2,0),(-1,-1),(-1,0),(-1,1),(0,-2),(1,-1),(1,0),(1,1),(2,0)]
 
 
-# while True:
-for k in range(1,N**2+1):
+while True:
     if (ci,cj) == (0,0):
         break
     narr = [x[:] for x in arr]
