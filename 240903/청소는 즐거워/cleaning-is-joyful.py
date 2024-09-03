@@ -22,7 +22,7 @@ ttdict = { 0: (0,-1),
 while True:
     if (ci,cj) == (0,0):
         break
-    narr = [x[:] for x in arr]
+    # narr = [x[:] for x in arr]
 
     ni,nj = ci+di[dr], cj+dj[dr]
     a = 0 # a값
@@ -34,18 +34,17 @@ while True:
         tmp = int(arr[ni][nj] * mul)
         a += tmp
         if 0<=tni<N and 0<=tnj<N:
-            narr[tni][tnj] = arr[tni][tnj] + tmp
+            arr[tni][tnj] = arr[tni][tnj] + tmp
         else:
             ans += tmp
     # a값 처리
     tdi,tdj = ttdict[dr]
     tni,tnj = ni + tdi, nj + tdj
     if 0 <= tni < N and 0 <= tnj < N:
-        narr[tni][tnj] = arr[tni][tnj] + (arr[ni][nj]-a)
+        arr[tni][tnj] = arr[tni][tnj] + (arr[ni][nj]-a)
     else:
         ans += (arr[ni][nj]-a)
-    narr[ni][nj] = 0
-    arr = narr
+    arr[ni][nj] = 0
     ci,cj = ni,nj
     cnt += 1
     if mn_cnt == cnt:
