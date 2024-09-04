@@ -11,8 +11,7 @@ di,dj = [-1,-1,0,1,1,1,0,-1], [0,1,1,1,0,-1,-1,-1]
 
 for turn in range(1,K+1):
     # 1. 모든 원소는 1초 지날 때마다 자신의 방향으로 속력만큼 이동
-    if not alst:
-        break
+
     narr = [x[:] for x in arr]
     for idx in range(M):
         # x, y, 질량, 속력, 방향
@@ -25,6 +24,8 @@ for turn in range(1,K+1):
     alst.sort(key = lambda x:(x[0],x[1]))
     # 새로 생기는 원자 리스트
     talst = []
+    # 삭제 리스트
+    trlst = []
     # 2. 이동이 모두 끝난 뒤에 하나의 칸에 2개 이상의 원자가 있는 경우
     # 2.a 같은 칸에 있는 원자들은 각각의 질량과 속력을 모두 합한 하나의 원자로 합쳐진다.
     narr = [x[:] for x in arr]
@@ -55,6 +56,10 @@ for turn in range(1,K+1):
                     tm = int(tm//5)
                     if tm == 0:
                         narr[i][j] = 0
+                        for idx in range(len(alst)):
+                            ci, cj, cm, cs, cd = alst[idx]
+                            if (ci,cj)==(i,j):
+                                trlst.append([ci, cj, cm, cs, cd])
                         continue
                     ts = int(ts//cur)
                     # 상하좌우
@@ -66,8 +71,25 @@ for turn in range(1,K+1):
                         for dr in range(1,8,2):
                             talst.append([i,j,tm,ts,dr])
                             narr[i][j] = 4
-
-    alst = talst
+    if talst:
+        alst = talst
+    else:
+        tlst = []
+        for ci, cj, cm, cs, cd in alst:
+            if [ci, cj, cm, cs, cd] in trlst:
+                continue
+            else:
+                tlst.append([ci, cj, cm, cs, cd])
+        alst = tlst
+    if not alst:
+        break
     arr = narr
 
-print(sum(map(sum,arr)))
+if not alst:
+    print(0)
+else:
+    ans = 0
+    for idx in range(len(alst)):
+        ci, cj, cm, cs, cd = alst[idx]
+        ans += cm
+    print(ans)
