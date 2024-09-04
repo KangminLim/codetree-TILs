@@ -11,7 +11,7 @@ di,dj = [-1,-1,0,1,1,1,0,-1], [0,1,1,1,0,-1,-1,-1]
 
 for turn in range(1,K+1):
     # 1. 모든 원소는 1초 지날 때마다 자신의 방향으로 속력만큼 이동
-
+    alst.sort(key = lambda x:(x[0],x[1]))
     narr = [x[:] for x in arr]
     for idx in range(M):
         # x, y, 질량, 속력, 방향
@@ -72,9 +72,19 @@ for turn in range(1,K+1):
                             talst.append([i,j,tm,ts,dr])
                             narr[i][j] = 4
     if talst:
-        alst = talst
+        tlst = []
+        for i in range(N):
+            for j in range(N):
+                if arr[i][j] == 1:
+                    for ci, cj, cm, cs, cd in alst:
+                        if (ci,cj) == (i,j):
+                            tlst.append([ci, cj, cm, cs, cd])
+        for ci, cj, cm, cs, cd in talst:
+            tlst.append([ci, cj, cm, cs, cd])
+        alst = tlst
     else:
         tlst = []
+
         for ci, cj, cm, cs, cd in alst:
             if [ci, cj, cm, cs, cd] in trlst:
                 continue
