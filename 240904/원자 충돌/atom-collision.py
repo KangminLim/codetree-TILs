@@ -11,6 +11,8 @@ di,dj = [-1,-1,0,1,1,1,0,-1], [0,1,1,1,0,-1,-1,-1]
 
 for turn in range(1,K+1):
     # 1. 모든 원소는 1초 지날 때마다 자신의 방향으로 속력만큼 이동
+    if not alst:
+        break
     narr = [x[:] for x in arr]
     for idx in range(M):
         # x, y, 질량, 속력, 방향
