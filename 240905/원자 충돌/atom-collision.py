@@ -29,7 +29,7 @@ for _ in range(K):
                     start_dr = 1
             else:
                 if j-i == 1: # 1개면 그냥 추가
-                    tmp.append(tlst[j])
+                    tmp.append(tlst[i])
                 elif sm // 5 >= 1:
                     for dr in range(start_dr,8,2):
                         tmp.append([ci,cj,sm//5,ss//(j-i),dr])
