@@ -32,7 +32,7 @@ for _ in range(K):
                     tmp.append(tlst[i])
                 elif sm // 5 >= 1:
                     for dr in range(start_dr,8,2):
-                        tmp.append([ci,cj,sm//5,ss//(j-i),dr])
+                        tmp.append([si,sj,sm//5,ss//(j-i),dr])
                 break
         i = j
     alst = tmp
