@@ -19,18 +19,23 @@ def find(si,sj,dest):
     q.append((si,sj))
     v = [[False] * (N+2) for _ in range(N+2)]
     v[si][sj] = True
-
+    tlst = []
     while q:
-        ci,cj = q.popleft()
-        if (ci,cj) in dest:
-            return ci,cj
+        nq = deque()
+        for ci,cj in q:
+            if (ci, cj) in dest:
+                tlst.append((ci,cj))
+            else:
+                for ni,nj in ((ci-1,cj),(ci,cj-1),(ci,cj+1),(ci+1,cj)):
+                    if arr[ni][nj] == 0 and not v[ni][nj]:
+                        nq.append((ni,nj))
+                        v[ni][nj] = True
+        q = nq
 
-        for ni,nj in ((ci-1,cj),(ci,cj-1),(ci,cj+1),(ci+1,cj)):
-            if arr[ni][nj] == 0 and not v[ni][nj]:
-                q.append((ni,nj))
-                v[ni][nj] = True
+        if tlst:
+            return sorted(tlst)[0]
 
-q = deque()
+q = []
 while time == 1 or q:
     # 1. 격자에 있다면 본인이 가고싶은 편의점 방향으로 이동
     nq = []
@@ -55,5 +60,7 @@ while time == 1 or q:
         basecamp.remove((ei,ej))
         arr[ei][ej] = 1
         q.append((ei,ej,time))
+
     time += 1
+
 print(max(arrived))
