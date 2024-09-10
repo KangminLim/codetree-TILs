@@ -80,7 +80,7 @@ for turn in range(K):
                     tg = cg
                 else:
                     gun[ni][nj].append(cg)
-                arr[ti][tj] = idx
+                arr[ti][tj] = tn
                 players[tn] = [ti,tj,td,tp,tg,ts]
                 lose(idx,ni,nj,cd,cp,0,cs)
 
