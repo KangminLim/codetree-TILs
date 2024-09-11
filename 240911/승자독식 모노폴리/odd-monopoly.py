@@ -36,7 +36,7 @@ while len(player) > 1 and T <= 1000:
             # 독점계약 맺지 않은 칸 있는지 확인
             for dr in nd:
                 ni,nj = ci+di[dr], cj+dj[dr]
-                if 0<=ni<N and 0<=nj<N and ((turn[ni][nj][1]>0 and turn[ni][nj][0] < T) or not turn[ni][nj][1]):
+                if 0<=ni<N and 0<=nj<N and ((turn[ni][nj][1]>0 and turn[ni][nj][0] <= T) or not turn[ni][nj][1]):
                     # nturn[ni][nj] = (T+K,idx)
                     player[idx] = [ni,nj,dr]
                     # narr[ni][nj] = idx
