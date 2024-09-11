@@ -44,6 +44,7 @@ def find(si,sj,dest):
         if tlst:
             return sorted(tlst)[0]
 
+    return False
 
 while ddict:
     # ecnt = N * N
@@ -53,7 +54,11 @@ while ddict:
     # if ecnt == 0:
     #     break
     # 가장 가까운 승객 찾기
-    cnt,ni,nj = find(ti,tj,sset)
+    if not find(ti,tj,sset):
+        flag = False
+        break
+    else:
+        cnt,ni,nj = find(ti,tj,sset)
     # 승객 리스트 제거
     sset.remove((ni,nj))
     # 종료 조건 (배터리 0 되면 종료)
@@ -65,7 +70,11 @@ while ddict:
     tdi, tdj = ddict[arr[ni][nj]]
     ddict.pop(arr[ni][nj])
     # 택시가 승객을 목적지로 무사히 태워주면
-    cnt,ei,ej = find(ni,nj,set(((tdi,tdj),(0,0))))
+    if not find(ni,nj,set(((tdi,tdj),(0,0)))):
+        flag = False
+        break
+    else:
+        cnt,ei,ej = find(ni,nj,set(((tdi,tdj),(0,0))))
 
     # 종료 조건 (배터리 0 되면 종료)
     if hp - cnt < 0:
