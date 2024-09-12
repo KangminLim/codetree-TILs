@@ -1,62 +1,53 @@
-lst = [list(map(int,input().split())) for _ in range(4)]
-arr = [[[0] * 2 for _ in range(4)] for _ in range(4)]
-sdict = {}
-slst = []
-for i in range(1,5):
-    for j in range(1,5):
-        # idx
-        arr[i-1][j-1][0] = lst[i-1][2*j-2]
-        # dr
-        arr[i-1][j-1][1] = lst[i-1][2*j-1]-1
-        slst.append([arr[i-1][j-1][0],i-1,j-1,arr[i-1][j-1][1]])
-        sdict[arr[i-1][j-1][0]] = [i-1,j-1,arr[i-1][j-1][1]]
-slst.sort(key=lambda x:x[0])
 di,dj = [-1,-1,0,1,1,1,0,-1], [0,-1,-1,-1,0,1,1,1]
-ans = arr[0][0][0]
-si,sj,sd = 0,0,arr[0][0][1]
-is_live = [True] * 17
-is_live[arr[0][0][0]] = False
-arr[0][0] = [-1,-1]
-while True:
-    # 도둑말 이동
-    for i in range(1,len(slst)+1):
-        if not is_live[i]: continue
-        idx,ci, cj, cd = slst[i-1]
-        for k in range(8):
-            ni,nj = ci+di[(cd+k)%8], cj+dj[(cd+k)%8]
-            if 0 <= ni < 4 and 0<=nj<4 and arr[ni][nj][0] >= 0:
-                # 다른 도둑말이 있다면 위치 변경
-                if arr[ni][nj][0] > 0:
-                    tmp,tdr = arr[ni][nj]
-                    # 이동한 도둑말
-                    slst[idx-1] = [idx,ni,nj,(cd+k)%8]
-                    # 이동당한 도둑말
-                    slst[tmp-1] = [tmp,ci,cj,tdr]
-                    arr[ni][nj] = [idx,(cd+k)%8]
-                    arr[ci][cj] = [tmp,tdr]
-                elif arr[ni][nj][0] == 0:
-                    slst[idx-1] = [idx,ni,nj,(cd+k)%8]
-                    arr[ni][nj] = [idx, (cd + k) % 8]
-                    arr[ci][cj] = [0,0] # 빈칸
-                break
-    # 술래말 이동
-    ti,tj = si,sj
-    mx,mi,mj,md = 0,si,sj,sd
-    for k in range(3):
-        ni,nj = ti+di[sd], tj+dj[sd]
-        if 0<=ni<4 and 0<=nj<4 and arr[ni][nj][0] > 0:
-            if arr[ni][nj][0] > mx:
-                mx = max(mx,arr[ni][nj][0])
-                mi,mj,md = ni,nj,arr[ni][nj][1]
-            ti,tj = ni,nj
-        else:
-            break
-    if mx > 0:
-        si,sj,sd = mi,mj,md
-        arr[si][sj] = [0,0]
-        arr[mi][mj] = [-1,-1]
-        ans += mx
-    else:
-        break
 
+def find(idx,v):
+    for i in range(4):
+        for j in range(4):
+            if v[i][j][0] == idx: # 찾던 물고기 번호면
+                return i,j,v[i][j][1]
+
+def dfs(si,sj,sd,sm,v):
+    global ans
+    # [0] 매번 정답갱신 : 종료 조건 n 관련 등 명확하지 않음!
+    ans = max(ans,sm)
+
+    # [1] 물고기의 이동(1~16) : 기준은 v[]이므로 먼저 i,j 검색
+    for idx in range(1,17):
+        ci,cj,dr = find(idx,v)
+        if dr == -1: continue  # 물고기가 없는 경우 skip
+        for j in range(8): # 현재 방향부터 8방향 체크
+            td = (dr+j)%8
+            ni,nj = ci+di[td],cj+dj[td]
+            # 범위내이고 상어가 아니면(빈칸 또는 물고기)
+            if 0<=ni<4 and 0<=nj<4 and (ni,nj) != (si,sj):
+                v[ci][cj][1] = td # 방향 적용 후 교환
+                # 파이썬의 장점
+                v[ci][cj],v[ni][nj] = v[ni][nj], v[ci][cj]
+                break
+
+    # [2] 상어의 이동(1칸 ~ 3칸 : 범위내이고 빈칸 아니면)
+    for mul in range(1,4):
+        ni,nj = si+di[sd]*mul, sj+dj[sd]*mul
+        if 0<=ni<4 and 0<=nj<4 and v[ni][nj][1] != -1:
+            fn,fd = v[ni][nj]
+            v[ni][nj][1] = -1 # 물고기 먹기
+            nv = [[x[:] for x in lst] for lst in v]
+
+            dfs(ni,nj,fd,sm+fn,nv)
+
+            v[ni][nj][1] = fd # 원상복구
+
+# [0] 물고기 입력, v[] 초기화
+v = [[[0] * 2 for _ in range(4)] for _  in range(4)]
+for i in range(4):
+    fish_lst = list(map(int,input().split()))
+
+    for j in range(4):
+        v[i][j] = [fish_lst[j*2],fish_lst[j*2+1]-1]
+
+# [1] 상어가 초기 위치 물고기 먹음
+ans = 0
+fn, fd = v[0][0] # 물고기 먹는 처리 주의(방향 [1] = -1)
+v[0][0][1] = -1  # (0,0) 위치 물고기 먹기 처리
+dfs(0,0,fd,fn,v) # 상어위치, 방향, 초기점수, v[]전달
 print(ans)
