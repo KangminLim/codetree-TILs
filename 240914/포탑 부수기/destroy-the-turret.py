@@ -13,7 +13,6 @@ def laser(si,sj,ei,ej):
         ci,cj = q.popleft()
         if (ci,cj) == (ei,ej):
             arr[ei][ej] = max(0,arr[ei][ej] - D)
-            fset.add((ei,ej))
             while True:
                 ci,cj = v[ci][cj]
                 if (ci,cj) == (si,sj):
@@ -22,9 +21,9 @@ def laser(si,sj,ei,ej):
                 arr[ci][cj] = max(0, arr[ci][cj] - D//2)
 
 
-        for di,dj in ((0,1),(1,0),(0,-1),(1,0)):
+        for di,dj in ((0,1),(1,0),(0,-1),(-1,0)):
             ni,nj = (ci+di)%N, (cj+dj)%M
-            if not v[ni][nj] and arr[ni][nj] >= 1:
+            if arr[ni][nj] >= 1 and not v[ni][nj]:
                 q.append((ni,nj))
                 v[ni][nj] = [ci,cj]
     return False
@@ -32,7 +31,6 @@ def laser(si,sj,ei,ej):
 def bomb(si,sj,ei,ej):
     D = arr[si][sj]
     arr[ei][ej] = max(0,arr[ei][ej]-D)
-    fset.add((ei,ej))
     for ni, nj in ((ei-1,ej),(ei-1,ej+1),(ei,ej+1),(ei+1,ej+1),(ei+1,ej),(ei+1,ej-1),(ei,ej-1),(ei-1,ej-1)):
         ni,nj = ni%N, nj%M
         if (ni,nj) != (si,sj):
@@ -42,7 +40,7 @@ def bomb(si,sj,ei,ej):
 for T in range(1,K+1):
 
     # 1. 공격자 선정
-    mn, mn_turn, si, sj = 5001,0,N,M
+    mn, mn_turn, si, sj = 5001,0,-1,-1
     for i in range(N):
         for j in range(M):
             # 공격력 가장 작은, 가장 최근에 공격한, 행과 열의 합이 큰, 열 값이 큰
@@ -67,6 +65,7 @@ for T in range(1,K+1):
     turn[si][sj] = T
     fset = set()
     fset.add((si,sj))
+    fset.add((ei,ej))
     # 3. 레이저 공격 및 포탄 공격(실패하면 포탄 공격)
     if not laser(si,sj,ei,ej):
         bomb(si,sj,ei,ej)
@@ -80,6 +79,6 @@ for T in range(1,K+1):
     # 4. 포탑 정비
     for i in range(N):
         for j in range(M):
-            if arr[i][j] >= 1 and (i,j) not in fset:
+            if arr[i][j] > 0 and (i,j) not in fset:
                 arr[i][j] += 1
 print(max(map(max,arr)))
