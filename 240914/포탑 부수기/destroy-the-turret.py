@@ -16,9 +16,9 @@ def laser(si,sj,ei,ej):
             fset.add((ei,ej))
             while True:
                 ci,cj = v[ci][cj]
-                fset.add((ci,cj))
                 if (ci,cj) == (si,sj):
                     return True
+                fset.add((ci,cj))
                 arr[ci][cj] = max(0, arr[ci][cj] - D//2)
 
 
@@ -35,8 +35,9 @@ def bomb(si,sj,ei,ej):
     fset.add((ei,ej))
     for ni, nj in ((ei-1,ej),(ei-1,ej+1),(ei,ej+1),(ei+1,ej+1),(ei+1,ej),(ei+1,ej-1),(ei,ej-1),(ei-1,ej-1)):
         ni,nj = ni%N, nj%M
-        arr[ni][nj] = max(0,arr[ei][ej]-D//2)
-        fset.add((ni,nj))
+        if (ni,nj) != (si,sj):
+            arr[ni][nj] = max(0,arr[ni][nj]-D//2)
+            fset.add((ni,nj))
 
 for T in range(1,K+1):
 
@@ -44,22 +45,22 @@ for T in range(1,K+1):
     mn, mn_turn, si, sj = 5001,0,N,M
     for i in range(N):
         for j in range(M):
-            # 공격력 가장 작은, 가장 최근에 공격한, 행곽 열의 합이 큰, 열 값이 큰
+            # 공격력 가장 작은, 가장 최근에 공격한, 행과 열의 합이 큰, 열 값이 큰
             if arr[i][j] == 0: continue # 부서진 포탑은 continue
-            if arr[i][j] < mn or (arr[i][j] == mn and turn[i][j] < mn_turn) or \
-                (arr[i][j] == mn and turn[i][j] == mn_turn and (i + j) < (ei + ej)) or \
-                (arr[i][j] == mn and turn[i][j] == mn_turn and (i + j) == (ei + ej) and (j < ej)):
+            if arr[i][j] < mn or (arr[i][j] == mn and turn[i][j] > mn_turn) or \
+                (arr[i][j] == mn and turn[i][j] == mn_turn and (i + j) > (si + sj)) or \
+                (arr[i][j] == mn and turn[i][j] == mn_turn and (i + j) == (si + sj) and (j > sj)):
                 mn, mn_turn, si, sj = arr[i][j], turn[i][j], i, j
 
     # 2. 공격대상 선정
-    mx, mx_turn, ei, ej = 0, 1001, N, M
+    mx, mx_turn, ei, ej = -1, 1001, N, M
     for i in range(N):
         for j in range(M):
-            # 공격력 가장 작은, 가장 최근에 공격한, 행곽 열의 합이 큰, 열 값이 큰
+            # 공격력 가장 큰, 가장 나중에 공격한, 행곽 열의 합이 작은, 열 값이 작은
             if arr[i][j] == 0: continue  # 부서진 포탑은 continue
-            if arr[i][j] > mx or (arr[i][j] == mx and turn[i][j] > mx_turn) or \
-                (arr[i][j] == mx and turn[i][j] == mx_turn and (i + j) > (si + sj)) or \
-                (arr[i][j] == mx and turn[i][j] == mx_turn and (i + j) == (si + sj) and (j > sj)):
+            if arr[i][j] > mx or (arr[i][j] == mx and turn[i][j] < mx_turn) or \
+                (arr[i][j] == mx and turn[i][j] == mx_turn and (i + j) < (ei + ej)) or \
+                (arr[i][j] == mx and turn[i][j] == mx_turn and (i + j) == (ei + ej) and (j < ej)):
                 mx, mx_turn, ei, ej = arr[i][j], turn[i][j], i, j
 
     arr[si][sj] += (N+M)
