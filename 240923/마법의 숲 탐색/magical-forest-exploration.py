@@ -70,7 +70,7 @@ for idx in range(1,K+1):
 
 
                 if not sflag and not rflag and not lflag:
-                    if ci <=2:
+                    if ci <=3:
                         arr = [[0] * C for _ in range(R + 3)]
                         exit = [[0] * C for _ in range(R + 3)]
                         break
