@@ -60,6 +60,7 @@ def rot270(arr,si,sj):
 for turn in range(K):
     ans = 0
     mx,mlst,marr = 0, [], []
+    mx90, mx180, mx270 = 0, 0, 0
     # 1. 탐사 진행
     # 1.1 3x3 격자 선택
     for j in range(3):
@@ -74,29 +75,47 @@ for turn in range(K):
 
 
             # 1.2.1 90도가 가장 클 떄
-            if a > max(b,c) and a >= mx:
-                mx = a
-                mlst = alst
-                marr = arr90
+            if a > mx90:
+                mx90 = a
+                mlst90 = alst
+                marr90 = arr90
             # 1.2.2 180도가 가장 클 때
-            elif b > c and b >= mx:
-                mx = b
-                mlst = blst
-                marr = arr180
+            if b > mx180:
+                mx180 = b
+                mlst180 = blst
+                marr180 = arr180
             # 1.2.3 270도가 가장 클 때
-            elif c > mx:
-                mx = c
-                mlst = clst
-                marr = arr270
+            if c > mx270:
+                mx270 = c
+                mlst270 = clst
+                marr270 = arr270
+    #         print('')
+    # print('')
 
+    if mx90 == 0 and mx180 == 0 and mx270 == 0: break
 
-    if mx == 0: break
+    if mx90 >= max(mx180,mx270):
+        mx = mx90
+        mlst = mlst90
+        marr = marr90
+    elif mx180 >= mx270:
+        mx = mx180
+        mlst = mlst180
+        marr = marr180
+    else:
+        mx = mx270
+        mlst = mlst270
+        marr = marr270
+
+    # print('')
     ans += mx
 
 
     mlst.sort(key=lambda x:(x[1],-x[0]))
     for ti, tj in mlst:
         marr[ti][tj] = left.pop(0)
+    # print('')
+
 
     while True:
         tmp, tlst = find(marr)
