@@ -32,7 +32,7 @@ def move_knight(start,cd):
         for idx in knights:
             if idx not in kset:
                 ti,tj,th,tw,tk = knights[idx]
-                if (ni <= ti < ni+ch and nj <= tj < nj+cw) or (ti <= ni < ti+th and tj <= nj < tj+tw):
+                if (ni <= ti < ni+ch or ti <= ni < ti+th) and (nj <= tj < nj+cw or tj <= nj < tj+tw):
                     q.append(idx)
                     kset.add(idx)
     damage[start] = 0
