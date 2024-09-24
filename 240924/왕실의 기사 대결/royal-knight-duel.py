@@ -32,18 +32,17 @@ def move_knight(start,cd):
         for idx in knights:
             if idx not in kset:
                 ti,tj,th,tw,tk = knights[idx]
-                if ni <= ti < ni+ch or nj <= tj < nj+cw or ti <= ni < ti+th or tj <= nj < tj+tw:
+                if (ni <= ti < ni+ch and nj <= tj < nj+cw) or (ti <= ni < ti+th and tj <= nj < tj+tw):
                     q.append(idx)
                     kset.add(idx)
     damage[start] = 0
 
     for idx in kset:
-        if idx in knights:
-            ci,cj,ch,cw,ck = knights[idx]
-            if ck - damage[idx] > 0:
-                knights[idx] = [ci+di[cd],cj+dj[cd],ch,cw,ck-damage[idx]]
-            else:
-                knights.pop(idx)
+        ci,cj,ch,cw,ck = knights[idx]
+        if ck - damage[idx] > 0:
+            knights[idx] = [ci+di[cd],cj+dj[cd],ch,cw,ck-damage[idx]]
+        else:
+            knights.pop(idx)
 
 for turn in range(1,Q+1):
     idx,dr = map(int,input().split())
