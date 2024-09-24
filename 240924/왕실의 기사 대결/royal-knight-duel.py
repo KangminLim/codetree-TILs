@@ -9,7 +9,7 @@ for idx in range(1,N+1):
 di,dj = [-1,0,1,0],[0,1,0,-1]
 
 from collections import deque
-def move_knight(start,dr):
+def move_knight(start,cd):
     q = deque()
     q.append(start)
     damage = [0] * (N+1)
@@ -19,7 +19,7 @@ def move_knight(start,dr):
     while q:
         cur = q.popleft()
         ci,cj,ch,cw,ck = knights[cur]
-        ni,nj = ci+di[dr], cj+dj[dr]
+        ni,nj = ci+di[cd], cj+dj[cd]
 
         # 2중 for문
         for i in range(ni,ni+ch):
@@ -37,17 +37,18 @@ def move_knight(start,dr):
                     kset.add(idx)
     damage[start] = 0
 
-    for idx in range(1,N+1):
+    for idx in kset:
         if idx in knights:
             ci,cj,ch,cw,ck = knights[idx]
             if ck - damage[idx] > 0:
-                knights[idx] = [ci+di[dr],cj+dj[dr],ch,cw,ck-damage[idx]]
+                knights[idx] = [ci+di[cd],cj+dj[cd],ch,cw,ck-damage[idx]]
             else:
                 knights.pop(idx)
 
 for turn in range(1,Q+1):
     idx,dr = map(int,input().split())
-    move_knight(idx,dr)
+    if idx in knights:
+        move_knight(idx,dr)
 
 ans = 0
 for idx in knights:
