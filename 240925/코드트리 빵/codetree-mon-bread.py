@@ -17,7 +17,7 @@ for idx in range(1,M+1):
 
 q = deque()
 time = 1
-arrived = [0] * (N+1)
+arrived = [0] * (M+1)
 
 def find(si,sj,dest):
     q = deque()
