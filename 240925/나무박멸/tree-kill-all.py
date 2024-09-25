@@ -37,7 +37,7 @@ for t in range(1,M+1):
                     for ti, tj in tlst:
                         narr[ti][tj] += arr[i][j] // len(tlst)
     arr = narr
-    # print('')
+    print('')
     # 3.1 제초제 뿌릴 위치 찾기
     mx,mi,mj = 0,2*N,2*N
     for i in range(1, N + 1):
@@ -45,9 +45,8 @@ for t in range(1,M+1):
             if arr[i][j] > 0:
                 tmp = arr[i][j]
                 for di,dj in ((-1,-1),(-1,1),(1,1),(1,-1)):
-                    ci,cj = i, j
-                    while True:
-                        ci,cj = ci + di, cj + dj
+                    for mul in range(1,K+1):
+                        ci,cj = i + di*mul, j + dj*mul
                         if arr[ci][cj] > 0:
                             tmp += arr[ci][cj]
                         else:
@@ -57,17 +56,19 @@ for t in range(1,M+1):
                     mi,mj = i, j
 
     if mx == 0:
-        continue
+        break
     ans += mx
     # 3.2 제초제 뿌리기
     arr[mi][mj] = -(C+1)
+    narr = [x[:] for x in arr]
     for di, dj in ((-1, -1), (-1, 1), (1, 1), (1, -1)):
-        ci, cj = mi, mj
-        while True:
-            ci, cj = ci + di, cj + dj
+        for mul in range(1, K + 1):
+            ci, cj = mi + di * mul, mj + dj * mul
             if arr[ci][cj] > 0:
-                arr[ci][cj] = -(C+1)
+                narr[ci][cj] = -(C+1)
             else:
+                if arr[ci][cj] > -(C+1):
+                    narr[ci][cj] = -(C+1)
                 break
-    # print('')
+    arr = narr
 print(ans)
