@@ -37,7 +37,6 @@ for t in range(1,M+1):
                     for ti, tj in tlst:
                         narr[ti][tj] += arr[i][j] // len(tlst)
     arr = narr
-    print('')
     # 3.1 제초제 뿌릴 위치 찾기
     mx,mi,mj = 0,2*N,2*N
     for i in range(1, N + 1):
