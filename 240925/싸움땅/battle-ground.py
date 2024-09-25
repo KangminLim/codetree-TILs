@@ -20,13 +20,12 @@ opp = {0:2,1:3,2:0,3:1}
 
 def lose(cur,ci,cj,cd,cp,cg,cs):
     for k in range(4):
-        cd = (cd+k)%4
-        ni,nj = ci+di[cd],cj+dj[cd]
+        ni,nj = ci+di[(cd+k)%4],cj+dj[(cd+k)%4]
         if 0<=ni<N and 0<=nj<N and not arr[ni][nj]:
             if gun[ni][nj]:
                 cg = max(gun[ni][nj])
                 gun[ni][nj].remove(cg)
-            players[cur] = [ni,nj,cd,cp,cg,cs]
+            players[cur] = [ni,nj,(cd+k)%4,cp,cg,cs]
             arr[ni][nj] = cur
             return
 
@@ -64,6 +63,8 @@ for turn in range(1,K+1):
                     if cg > 0:
                         gun[ni][nj].append(cg)
                     cg = eg
+                else:
+                    gun[ni][nj].append(eg)
                 arr[ni][nj] = idx
                 players[idx] = [ni,nj,cd,cp,cg,cs]
 
@@ -75,6 +76,8 @@ for turn in range(1,K+1):
                     if eg > 0:
                         gun[ni][nj].append(eg)
                     eg = cg
+                else:
+                    gun[ni][nj].append(cg)
                 arr[ei][ej] = e
                 players[e] = [ei,ej,ed,ep,eg,es]
 
