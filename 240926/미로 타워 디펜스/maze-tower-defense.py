@@ -3,6 +3,7 @@ di, dj = [0,1,0,-1], [1,0,-1,0]
 arr = [list(map(int,input().split())) for _ in range(N)]
 ans = 0
 tdi,tdj = [0,1,0,-1], [-1,0,1,0]
+from collections import deque
 for turn in range(1,M+1):
     cd,mul = map(int,input().split())
     ci,cj = N//2, N//2
@@ -12,7 +13,7 @@ for turn in range(1,M+1):
         arr[ni][nj] = 0
     # narr = [[0] * N for _ in range(N)]
     mx_cnt, cnt, flag, cd = 1, 0, 0, 0
-    tlst = []
+    tlst = deque()
     for i in range(1,N*N):
         ci,cj = ci+tdi[cd],cj+tdj[cd]
         # narr[ci][cj] = i
@@ -32,9 +33,9 @@ for turn in range(1,M+1):
     tlst.append(0) # while문을 위한 패딩
     while True:
         tmp = 0
-        nlst = []
+        nlst = deque()
         while len(tlst)>1:
-            cur = tlst.pop(0)
+            cur = tlst.popleft()
             cnt = 1
             i = 0
             while True:
@@ -48,11 +49,11 @@ for turn in range(1,M+1):
                     nlst.append(cur)
                 if i >= 1:
                     for _ in range(i):
-                        tlst.pop(0)
+                        tlst.popleft()
             else:
                 tmp += cur * cnt
                 for _ in range(i):
-                    tlst.pop(0)
+                    tlst.popleft()
         tlst = nlst
         tlst.append(0)
         if tmp == 0:
@@ -60,9 +61,9 @@ for turn in range(1,M+1):
         else: ans += tmp
 
     # 4. 짝 짓기 (총 갯수, 숫자의 크기)
-    nlst = []
+    nlst = deque()
     while len(tlst)>1:
-        cur = tlst.pop(0)
+        cur = tlst.popleft()
         cnt = 1
         i = 0
         while True:
@@ -73,7 +74,7 @@ for turn in range(1,M+1):
                 break
         if cnt > 1:
             for _ in range(cnt-1):
-                tlst.pop(0)
+                tlst.popleft()
         nlst.append(cnt)
         nlst.append(cur)
 
