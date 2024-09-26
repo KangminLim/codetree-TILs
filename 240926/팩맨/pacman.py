@@ -17,10 +17,11 @@ for turn in range(1,T+1):
         for j in range(4):
             if die[i][j] < 0 :
                 die[i][j] += 1
-
     # 1. 몬스터 복제 시도
     tlst = [x[:] for x in mlst]
     narr = [x[:] for x in arr]
+    # print('')
+
     # 2. 몬스터 이동
     for i in range(len(mlst)):
         ci,cj,cd = mlst[i]
@@ -28,33 +29,41 @@ for turn in range(1,T+1):
             ni,nj = ci+di[(cd+k)%8], cj+dj[(cd+k)%8]
             # 범위 내, 몬스터 시체 x, 팩맨 x
             if 0<=ni<4 and 0<=nj<4 and die[ni][nj] >= 0 and (ni,nj) != (pi,pj):
-                narr[ni][nj] += arr[ci][cj]
-                narr[ci][cj] -= arr[ci][cj]
+                narr[ni][nj] += 1
+                narr[ci][cj] -= 1
                 mlst[i] = (ni,nj,(cd+k)%8)
                 break
     arr = narr
     # 3. 팩맨 이동 위치 찾기
     mx = 0
     dlst = []
+    # print('')
+
     # 이동 과정 3회 (상,좌,하,우), 이동 과정에서 먹는 몬스터 mx, dr, 값 저장
     tpi,tpj = pi, pj
     for i in range(4):
         fni,fnj = tpi+tdi[i], tpj+tdj[i]
-        tmp1,tmp2,tmp3 = 0, 0, 0
-        if 0<=fni<4 and 0<=fnj<4 and (fni,fnj) != (tpi,tpj):
+        tmp1 = 0
+        if 0<=fni<4 and 0<=fnj<4:
             tmp1 = arr[fni][fnj]
             for j in range(4):
+                tmp2 = 0
                 sni,snj = fni + tdi[j], fnj + tdj[j]
-                if 0 <= sni < 4 and 0 <= snj < 4 and (sni,snj) != (tpi,tpj) and (fni,fnj) != (sni,snj):
-                    tmp2 = arr[sni][snj]
+                if 0 <= sni < 4 and 0 <= snj < 4:
+                    if (fni, fnj) != (sni, snj):
+                        tmp2 = arr[sni][snj]
                     for k in range(4):
+                        tmp3 = 0
                         tni,tnj = sni+tdi[k],snj+tdj[k]
-                        if 0 <= tni < 4 and 0 <= tnj < 4 and (tni,tnj) != (sni,snj) and (tni,tnj) != (fni,fnj) and (tni,tnj) != (tpi,tpj):
-                            tmp3 = arr[tni][tnj]
-                        tmp = tmp1+tmp2+tmp3
-                        if tmp > mx:
-                            mx = tmp
-                            dlst.append((i,j,k))
+                        if 0 <= tni < 4 and 0 <= tnj < 4:
+                            if (tni,tnj) != (sni,snj) and (tni,tnj) != (fni,fnj):
+                                tmp3 = arr[tni][tnj]
+                            tmp = tmp1+tmp2+tmp3
+                            if tmp > mx:
+                                mx = tmp
+                                dlst.append((i,j,k))
+    # print('')
+
     # 4. 팩맨 이동
     if mx > 0:
         slst = []
@@ -66,6 +75,7 @@ for turn in range(1,T+1):
             die[fni][fnj] = -2
         sni, snj = fni + tdi[j], fnj + tdj[j]
         tmp2 = arr[sni][snj]
+
         if tmp2 > 0:
             arr[sni][snj] = 0
             die[sni][snj] = -2
@@ -75,16 +85,20 @@ for turn in range(1,T+1):
             arr[tni][tnj] = 0
             die[tni][tnj] = -2
         # 팩맨 이동 처리
+        arr[pi][pj] = 0
         pi,pj = tni, tnj
-
+        arr[pi][pj] = -1
         for mi,mj,md in mlst:
             if (mi,mj) != (fni,fnj) and (mi,mj) != (sni,snj) and (mi,mj) != (tni,tnj):
                 slst.append((mi,mj,md))
+    # print('')
+
 
     # 5. 몬스터 복제 완성
     for ti,tj,td in tlst:
         arr[ti][tj] += 1
     mlst = slst + tlst
+    # print('')
 
 ans = 0
 for i in range(4):
