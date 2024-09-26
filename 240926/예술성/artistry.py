@@ -9,14 +9,16 @@ def bfs(si,sj):
     q = deque()
     q.append((si,sj))
     v[si][sj] = True
-    groups[-1].append((si,sj))
+    # groups[-1].append((si,sj))
+    groups[-1].add((si,sj))
     while q:
         ci,cj = q.popleft()
         for ni,nj in ((ci-1,cj),(ci,cj+1),(ci+1,cj),(ci,cj-1)):
             if 0<=ni<N and 0<=nj<N and not v[ni][nj] and arr[ci][cj] == arr[ni][nj]:
                 q.append((ni,nj))
                 v[ni][nj] = True
-                groups[-1].append((ni,nj))
+                # groups[-1].append((ni,nj))
+                groups[-1].add((ni,nj))
 
 
 for t in range(4):
@@ -27,7 +29,7 @@ for t in range(4):
     for i in range(N):
         for j in range(N):
             if not v[i][j]:
-                groups.append([])
+                groups.append(set())
                 nums.append(arr[i][j])
                 bfs(i,j)
     # 3. 예술성 점수 구하기
