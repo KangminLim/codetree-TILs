@@ -84,6 +84,7 @@ for turn in range(1,T+1):
         for mi,mj,md in mlst:
             if (mi,mj) != (fni,fnj) and (mi,mj) != (sni,snj) and (mi,mj) != (tni,tnj):
                 slst.append((mi,mj,md))
+        mlst = slst
     else:
         tpi,tpj = pi, pj
         for i in range(4):
@@ -107,7 +108,7 @@ for turn in range(1,T+1):
     # 5. 몬스터 복제 완성
     for ti,tj,td in tlst:
         arr[ti][tj] += 1
-    mlst = slst + tlst
+    mlst += tlst
 
 ans = 0
 for i in range(4):
