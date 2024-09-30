@@ -26,14 +26,14 @@ for dr in range(4):
 ci,cj,cd = N//2, N//2,0
 tdi,tdj = [0,1,0,-1],[-1,0,1,0]
 mx_cnt,cnt,flag = 1,0,0
-tarr = [[0] * N for _ in range(N)]
+# tarr = [[0] * N for _ in range(N)]
 ans = 0
 for turn in range(1,N*N):
 
     # 1. 나선형 이동
 
     ci,cj = ci+tdi[cd], cj+tdj[cd]
-    tarr[ci][cj] = turn
+    # tarr[ci][cj] = turn
 
     cnt += 1
 
