@@ -39,7 +39,6 @@ for turn in range(1,N*N):
     # 2. 청소 시작(비율대로 계산)
     dlst = pdict[cd]
     adi, adj = adict[cd]
-    narr = [x[:] for x in arr]
     tmp = 0
     for i in range(len(dlst)):
         di,dj = dlst[i]
