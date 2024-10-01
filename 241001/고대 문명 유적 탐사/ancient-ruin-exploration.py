@@ -66,8 +66,8 @@ for turn in range(1,K+1):
     mlst = []
     marr = []
     mx90, mx180, mx270 = 0, 0 ,0
-    mlst90,mlst180,mlst270 = [],[],[]
-    marr90, marr180, marr270 = [], [], []
+    # mlst90,mlst180,mlst270 = [],[],[]
+    # marr90, marr180, marr270 = [], [], []
     ans = 0
 
     # 1. 탐사 진행
@@ -91,7 +91,7 @@ for turn in range(1,K+1):
                 mlst180 = mx_tlst180
                 marr180 = tarr180
 
-            if mx_tmp270 > mx:
+            if mx_tmp270 > mx270:
                 mx270 = mx_tmp270
                 mlst270 = mx_tlst270
                 marr270 = tarr270
@@ -119,7 +119,7 @@ for turn in range(1,K+1):
     for ti,tj in mlst:
         marr[ti][tj] = alst.pop(0)
 
-    # print('')
+    print('')
 
     while True:
         mx_tmp, mx_tlst = find(marr)
@@ -131,7 +131,7 @@ for turn in range(1,K+1):
         for ti, tj in mx_tlst:
             marr[ti][tj] = alst.pop(0)
 
-    # print('')
+    print('')
     arr = marr
     answer.append(ans)
 print(*answer)
