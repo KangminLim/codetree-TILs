@@ -119,7 +119,7 @@ for turn in range(1,K+1):
     for ti,tj in mlst:
         marr[ti][tj] = alst.pop(0)
 
-    print('')
+    # print('')
 
     while True:
         mx_tmp, mx_tlst = find(marr)
@@ -131,7 +131,7 @@ for turn in range(1,K+1):
         for ti, tj in mx_tlst:
             marr[ti][tj] = alst.pop(0)
 
-    print('')
+    # print('')
     arr = marr
     answer.append(ans)
 print(*answer)
