@@ -34,11 +34,10 @@ def push_knight(start,dr):
                 if (ti<=ni<ti+th or ni <= ti < ni+ch) and (tj<=nj<tj+tw or nj<=tj<nj+cw):
                     q.append(idx)
                     fset.add(idx)
-
     damage[start] = 0
 
     for idx in fset:
-        ci,ch,ch,cw,ck = knights[idx]
+        ci,cj,ch,cw,ck = knights[idx]
         if ck - damage[idx] <= 0:
             knights.pop(idx)
         else:
