@@ -32,7 +32,7 @@ def santa_move(cur,si,sj,di,dj,mul):
             else:
                 arr[ni][nj] = cur
                 santa[cur] = (ni, nj)
-                return
+
 
         else:
             is_live[cur] = False
@@ -74,7 +74,7 @@ for turn in range(1,M+1):
         scores[sidx] += C
 
     # 2. 산타 움직임
-    for idx in santa:
+    for idx in range(1,P+1):
         if not is_live[idx] or is_stun[idx] > turn: continue
         ci,cj = santa[idx]
         tlst = []
