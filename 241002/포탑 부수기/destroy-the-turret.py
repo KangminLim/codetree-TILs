@@ -49,7 +49,7 @@ for T in range(1,K+1):
                     mn, mx_turn, si, sj = arr[i][j], turn[i][j], i, j
 
     # 2. 공격대상 선정
-    mx,mn_turn,ei,ej = 0,1001,0,0
+    mx,mn_turn,ei,ej = -1,1001,11,11
     for i in range(N):
         for j in range(M):
             if arr[i][j] > 0:
@@ -57,7 +57,7 @@ for T in range(1,K+1):
                     (mx == arr[i][j] and mn_turn == turn[i][j] and ei + ej > i + j) or \
                     (mx == arr[i][j] and mn_turn == turn[i][j] and ei + ej == i + j and ej > j):
                     mx, mn_turn, ei, ej = arr[i][j], turn[i][j], i, j
-
+    # print('')
     # 공격력, 공격 턴, fset 갱신
     fset = set()
     fset.add((si,sj))
@@ -67,17 +67,18 @@ for T in range(1,K+1):
 
     if not bfs(si,sj,ei,ej):
         bomb(si,sj,ei,ej)
-
+    # print('')
     # 종료 조건
     cnt = N*M
     for lst in arr:
         cnt -= lst.count(0)
 
-    if cnt <= 1: break
+    if cnt == 1: break
 
     for i in range(N):
         for j in range(M):
             if arr[i][j] > 0 and (i,j) not in fset:
                 arr[i][j] += 1
+    # print('')
 
 print(max(map(max,arr)))
