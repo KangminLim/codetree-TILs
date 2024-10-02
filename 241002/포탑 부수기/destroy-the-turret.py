@@ -32,8 +32,9 @@ def bomb(si,sj,ei,ej):
     arr[ei][ej] = max(0, arr[ei][ej] - D)
     for di, dj in ((-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)):
         ni, nj = (ei + di) % N, (ej + dj) % M
-        fset.add((ni, nj))
-        arr[ni][nj] = max(0, arr[ni][nj] - D // 2)
+        if (ni,nj) != (si,sj):
+            fset.add((ni, nj))
+            arr[ni][nj] = max(0, arr[ni][nj] - D // 2)
 
 for T in range(1,K+1):
 
@@ -49,7 +50,7 @@ for T in range(1,K+1):
                     mn, mx_turn, si, sj = arr[i][j], turn[i][j], i, j
 
     # 2. 공격대상 선정
-    mx,mn_turn,ei,ej = -1,1001,11,11
+    mx,mn_turn,ei,ej = 0,1001,11,11
     for i in range(N):
         for j in range(M):
             if arr[i][j] > 0:
