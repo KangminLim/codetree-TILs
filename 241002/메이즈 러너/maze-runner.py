@@ -49,10 +49,10 @@ for turn in range(1,K+1):
                         else:
                             narr[ni][nj] += arr[i][j]
                         break
+    if cnt == 0:
+        break
     arr = narr
-    # print('')
     si,sj,mn = find_square(arr)
-    # print('')
     narr = [x[:] for x in arr]
 
     for i in range(mn):
