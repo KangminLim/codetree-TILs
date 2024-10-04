@@ -52,9 +52,7 @@ for turn in range(1,K+1):
                         gun[ni][nj].append(cg)
                     gun[ni][nj].remove(mx)
                     cg = mx
-                else:
-                    cg = mx
-                    gun[ni][nj].remove(mx)
+
             players[idx] = [ni,nj,cd,cp,cg,cs]
             arr[ni][nj] = idx
 
