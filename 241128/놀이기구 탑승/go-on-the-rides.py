@@ -22,7 +22,7 @@ for i in range(len(lst)):
                 break
         if not flag:
             break
-    ci,cj = N,N
+    tlst = []
     for si in range(N):
         for sj in range(N):
             if arr[si][sj] > 0: continue
@@ -33,14 +33,9 @@ for i in range(len(lst)):
                         tfcnt += 1
                     elif arr[ni][nj] == 0:
                         tzcnt += 1
-            if tfcnt > fcnt:
-                fcnt = tfcnt
-                zcnt = tzcnt
-                ci,cj = si,sj
-            elif tfcnt == fcnt:
-                if tzcnt > zcnt:
-                    zcnt = tzcnt
-                    ci,cj = si,sj
+            tlst.append((tfcnt,tzcnt,si,sj))
+    tlst.sort(key=lambda x:(-x[0],-x[1]))
+    ci,cj = tlst[0][2],tlst[0][3]
     arr[ci][cj] = n0
 
 ans = 0
