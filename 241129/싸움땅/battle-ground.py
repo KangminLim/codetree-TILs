@@ -80,6 +80,7 @@ for turn in range(1,K+1):
                 else:
                     gun[ni][nj].append(cg)
                 players[e] = [ni,nj,ed,ep,eg,es]
+                arr[ni][nj] = e
                 lose(idx,ni,nj,cd,cp,0,cs)
 
 for idx in players:
