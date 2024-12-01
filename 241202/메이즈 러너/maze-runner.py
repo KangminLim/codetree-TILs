@@ -7,14 +7,14 @@ for _ in range(M):
     arr[ci][cj] -= 1
 
 ei, ej = map(lambda x: int(x) - 1, input().split())
-arr[ei][ej] = -10
+arr[ei][ej] = -11
 ans = 0
 cnt = M
 def find_square(arr):
     mn = N
     for i in range(N):
         for j in range(N):
-            if -10 < arr[i][j] < 0:
+            if -11 < arr[i][j] < 0:
                 mn = min(max(abs(ei-i),abs(ej-j)),mn)
 
     for si in range(N-mn):
@@ -22,13 +22,13 @@ def find_square(arr):
             if si<=ei<=si+mn and sj<=ej<=sj+mn:
                 for i in range(mn+1):
                     for j in range(mn+1):
-                        if -10 < arr[si+i][sj+j] < 0:
+                        if -11 < arr[si+i][sj+j] < 0:
                             return si,sj,mn+1
 
 def find_exit(arr):
     for i in range(N):
         for j in range(N):
-            if arr[i][j] == -10:
+            if arr[i][j] == -11:
                 return i,j
 
 for turn in range(1,K+1):
@@ -37,7 +37,7 @@ for turn in range(1,K+1):
     narr = [x[:] for x in arr]
     for i in range(N):
         for j in range(N):
-            if -10 < arr[i][j] < 0:
+            if -11 < arr[i][j] < 0:
                 dist = abs(ei-i) + abs(ej-j)
                 for ni,nj in ((i-1,j),(i+1,j),(i,j-1),(i,j+1)):
                     if 0<=ni<N and 0<=nj<N and dist > abs(ei-ni) + abs(ej-nj) and arr[ni][nj] <= 0:
