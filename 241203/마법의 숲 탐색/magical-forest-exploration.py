@@ -1,7 +1,7 @@
 R, C, K = map(int,input().split())
 arr = [[-1] + [0] * C + [-1] for _ in range(R+3)] + [[-1] * (C+2)]
 
-Exit = [[False] + [False] * C + [False] for _ in range(R+3)] + [[False] * (C+2)]
+Exit = [[False] * (C + 2) for _ in range(R + 4)]
 
 ans = 0
 di,dj = [-1,0,1,0], [0,1,0,-1]
@@ -10,7 +10,7 @@ from collections import deque
 def bfs(si,sj):
     q = deque()
     q.append((si,sj))
-    v = [[False] * (C+2) for _ in range(R+3)]
+    v = [[False] * (C+2) for _ in range(R+4)]
     v[si][sj] = True
     mx = 0
     while q:
@@ -44,7 +44,7 @@ for idx in range(1,K+1):
         else:
             break
 
-    if ci < 3:
+    if ci < 4:
         arr = [[-1] + [0] * C + [-1] for _ in range(R + 3)] + [[-1] * (C + 2)]
         Exit = [[False] * (C+2) for _ in range(R + 4)]
     else:
@@ -53,5 +53,5 @@ for idx in range(1,K+1):
         Exit[ci+di[dr]][cj+dj[dr]] = True
         tmp = bfs(ci,cj)
         ans += bfs(ci,cj)
-
+        # print('')
 print(ans)
