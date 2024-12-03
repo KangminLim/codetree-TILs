@@ -19,14 +19,14 @@ def rot180(arr,si,sj):
     narr = [x[:] for x in arr]
     for i in range(3):
         for j in range(3):
-            narr[si+i][sj+j] = arr[si+2-j][sj+2-i]
+            narr[si+i][sj+j] = arr[si+2-i][sj+2-j]
     return narr
 
 def rot270(arr,si,sj):
     narr = [x[:] for x in arr]
     for i in range(3):
         for j in range(3):
-            narr[si+i][sj+j] = arr[si+2-i][sj+j]
+            narr[si+i][sj+j] = arr[si+j][sj+2-i]
     return narr
 
 def simul(arr):
@@ -35,7 +35,7 @@ def simul(arr):
 
     for i in range(5):
         for j in range(5):
-            if not v[i][j]:
+            if not v[i][j] and arr[i][j] > 0:
                 v[i][j] = True
                 arr, tmp = bfs(arr,i,j,v)
                 if tmp < 3: continue
@@ -76,7 +76,7 @@ for turn in range(1,K+1):
             taarr = rot90(arr,i,j)
             tbarr = rot180(arr,i,j)
             tcarr = rot270(arr,i,j)
-
+            # print('')
             # 1-b 유물 획득
             taarr,ta = simul(taarr)
             if amx < ta:
@@ -101,10 +101,10 @@ for turn in range(1,K+1):
     # 90도가 가장 큼
     if amx >= max(bmx,cmx):
         mx, marr = amx, aarr
-    # 90도가 가장 큼
+    # 180도가 가장 큼
     elif bmx >= cmx:
         mx, marr = bmx, barr
-    # 90도가 가장 큼
+    # 270도가 가장 큼
     else:
         mx, marr = cmx, carr
 
