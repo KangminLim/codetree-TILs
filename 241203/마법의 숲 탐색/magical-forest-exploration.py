@@ -46,7 +46,7 @@ for idx in range(1,K+1):
 
     if ci < 3:
         arr = [[-1] + [0] * C + [-1] for _ in range(R + 3)] + [[-1] * (C + 2)]
-        Exit = [[False] + (C+2) for _ in range(R + 4)]
+        Exit = [[False] * (C+2) for _ in range(R + 4)]
     else:
         for i,j in ((ci-1,cj),(ci,cj+1),(ci+1,cj),(ci,cj-1),(ci,cj)):
             arr[i][j] = idx
