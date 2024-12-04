@@ -88,7 +88,7 @@ def transform_coords(cd,ni,nj):
         elif nj < 0:
             return 2,ni,M-1
         elif nj >= M:
-            return 2,ni,0
+            return 0,ni,0
 
 def bfs1():
     # 1. 맨 윗단에서 우주선 찾기
@@ -115,11 +115,13 @@ def bfs1():
             if not (0<=ni<M and 0<=nj<M):
                 if not transform_coords(cd,ni,nj): continue
                 else:
-                    cd,ni,nj = transform_coords(cd,ni,nj)
+                    dir,ni,nj = transform_coords(cd,ni,nj)
+            else:
+                dir = cd
 
-            if not v[cd][ni][nj] and cube[cd][ni][nj] != 1:
-                v[cd][ni][nj] = 1
-                q.append((cd,ni,nj,cnt+1))
+            if not v[dir][ni][nj] and cube[dir][ni][nj] != 1:
+                v[dir][ni][nj] = 1
+                q.append((dir,ni,nj,cnt+1))
 
     return -1
 
