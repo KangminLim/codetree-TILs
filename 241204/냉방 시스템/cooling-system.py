@@ -7,9 +7,9 @@ wall = [[[0] * 5 for _ in range(N+2)] for _ in range(N+2)]
 for _ in range(M):
     i,j,t = map(int,input().split())
     if t == 0:
-        wall[i][j][3] = wall[i-1][j][4] = 1
+        wall[i][j][2] = wall[i-1][j][4] = 1
     else:
-        wall[i][j][1] = wall[i][j+1][2] = 1
+        wall[i][j][1] = wall[i][j-1][3] = 1
 
 mlst = []
 hlst = []
@@ -22,7 +22,7 @@ for i in range(1,N+1):
             mlst.append((i,j))
 
 # 확산 방향 / 좌, 상, 우, 하
-dr_dict = {1:((2,1),(1,),(3,1)),2:((1,2),(2,),(3,2)), 3: ((2,3),(3,),(4,3)), 4:((1,4),(4,),(3,4))}
+dr_dict = {1:((2,1),(1,),(4,1)),2:((1,2),(2,),(3,2)), 3: ((2,3),(3,),(4,3)), 4:((1,4),(4,),(3,4))}
 from collections import deque
 def bfs(si,sj,dr):
     q = deque()
