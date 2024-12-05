@@ -161,7 +161,7 @@ def find(si,sj):
 
 mlst = find(si,sj)
 # print('')
-if mlst is None: print(-1)
+if not mlst: print(-1)
 
 else:
     flag = False
