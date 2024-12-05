@@ -159,13 +159,11 @@ def find(si,sj):
                 v[ni][nj] = (ci,cj)
     return
 
+flag = False
 mlst = find(si,sj)
 # print('')
 if mlst is None: print(-1)
-
 else:
-    flag = False
-
     for turn in range(len(mlst)):
         # 이동거리, 메두사로 인해 돌이 된 전사의 수, 메두사를 공격
         ans1 = ans2 = ans3 = 0
