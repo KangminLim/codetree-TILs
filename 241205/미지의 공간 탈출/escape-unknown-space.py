@@ -134,6 +134,7 @@ def find_exit(si,sj,cnt,flst):
                 q.append((ni,nj,cnt+1))
                 v[ni][nj] = True
 
+    return -1
 si,sj = find_tm()
 cnt = find_tw()
 ans = find_exit(si,sj,cnt+1,flst)
