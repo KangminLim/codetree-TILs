@@ -199,7 +199,7 @@ else:
 
         ans2 += mx
         # print('')
-        nmp = [x[:] for x in mp]
+        # nmp = [x[:] for x in mp]
         # 3. 전사의 이동
         for idx in range(M):
             if idx not in wdict: continue
@@ -223,13 +223,13 @@ else:
                 if (ti,tj) == (si,sj):
                     ans3 += 1
                     wdict.pop(idx)
-                    nmp[ci][cj] -= 1
+                    mp[ci][cj] -= 1
                 else:
-                    nmp[ci][cj] -= 1
-                    nmp[ti][tj] += 1
+                    mp[ci][cj] -= 1
+                    mp[ti][tj] += 1
                     wdict[idx] = (ti,tj)
         # print('')
-        mp = nmp
+        # mp = nmp
         print(ans1,ans2,ans3)
 if flag:
     print(0)
