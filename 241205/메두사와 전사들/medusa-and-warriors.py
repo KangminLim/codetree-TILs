@@ -44,7 +44,7 @@ def bfs(si,sj,dr):
                 v[ni][nj] = True
     v[si][sj] = False
     if tlst:
-        nv = [x[:] for x in v]
+        # nv = [x[:] for x in v]
         nq = deque()
         for ti, tj in tlst:
             nq.append((ti, tj))
@@ -55,19 +55,19 @@ def bfs(si,sj,dr):
                     for di,dj in ((-1,-1),(-1,0)):
                         ni,nj = ti+di,tj+dj
                         if 0<=ni<N and 0<=nj<N:
-                            nv[ni][nj] = False
+                            v[ni][nj] = False
                             nq.append((ni,nj))
                 elif tj > sj:
                     for di,dj in ((-1,1),(-1,0)):
                         ni,nj = ti+di,tj+dj
                         if 0<=ni<N and 0<=nj<N:
-                            nv[ni][nj] = False
+                            v[ni][nj] = False
                             nq.append((ni,nj))
                 else:
                     for di,dj in ((-1,0),):
                         ni,nj = ti+di,tj+dj
                         if 0<=ni<N and 0<=nj<N:
-                            nv[ni][nj] = False
+                            v[ni][nj] = False
                             nq.append((ni,nj))
         elif dr == 1: # 하
             while nq:
@@ -76,19 +76,19 @@ def bfs(si,sj,dr):
                     for di,dj in ((1,-1),(1,0)):
                         ni,nj = ti+di,tj+dj
                         if 0<=ni<N and 0<=nj<N:
-                            nv[ni][nj] = False
+                            v[ni][nj] = False
                             nq.append((ni,nj))
                 elif tj > sj:
                     for di,dj in ((1,1),(1,0)):
                         ni,nj = ti+di,tj+dj
                         if 0<=ni<N and 0<=nj<N:
-                            nv[ni][nj] = False
+                            v[ni][nj] = False
                             nq.append((ni,nj))
                 else:
                     for di,dj in ((1,0),):
                         ni,nj = ti+di,tj+dj
                         if 0<=ni<N and 0<=nj<N:
-                            nv[ni][nj] = False
+                            v[ni][nj] = False
                             nq.append((ni,nj))
         elif dr == 2: # 좌
             while nq:
@@ -97,19 +97,19 @@ def bfs(si,sj,dr):
                     for di,dj in ((-1,-1),(0,-1)):
                         ni,nj = ti+di,tj+dj
                         if 0<=ni<N and 0<=nj<N:
-                            nv[ni][nj] = False
+                            v[ni][nj] = False
                             nq.append((ni,nj))
                 elif ti > si:
                     for di,dj in ((1,-1),(0,-1)):
                         ni,nj = ti+di,tj+dj
                         if 0<=ni<N and 0<=nj<N:
-                            nv[ni][nj] = False
+                            v[ni][nj] = False
                             nq.append((ni,nj))
                 else:
                     for di,dj in ((0,-1),):
                         ni,nj = ti+di,tj+dj
                         if 0<=ni<N and 0<=nj<N:
-                            nv[ni][nj] = False
+                            v[ni][nj] = False
                             nq.append((ni,nj))
         elif dr == 3: # 우
             while nq:
@@ -118,24 +118,24 @@ def bfs(si,sj,dr):
                     for di,dj in ((-1,1),(0,1)):
                         ni,nj = ti+di,tj+dj
                         if 0<=ni<N and 0<=nj<N:
-                            nv[ni][nj] = False
+                            v[ni][nj] = False
                             nq.append((ni,nj))
                 elif ti > si:
                     for di,dj in ((1,1),(0,1)):
                         ni,nj = ti+di,tj+dj
                         if 0<=ni<N and 0<=nj<N:
-                            nv[ni][nj] = False
+                            v[ni][nj] = False
                             nq.append((ni,nj))
                 else:
                     for di,dj in ((0,1),):
                         ni,nj = ti+di,tj+dj
                         if 0<=ni<N and 0<=nj<N:
-                            nv[ni][nj] = False
+                            v[ni][nj] = False
                             nq.append((ni,nj))
         for ti,tj in tlst:
-            if not nv[ti][tj]:
+            if not v[ti][tj]:
                 cnt -= mp[ti][tj]
-        v = nv
+        # v = nv
     return cnt, v
 def find(si,sj):
     q = deque()
