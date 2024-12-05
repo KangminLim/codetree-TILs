@@ -60,8 +60,8 @@ def transform_coords(cd,ni,nj):
 
     elif cd ==1: # 북쪽에서 다른 면으로
         if ni < 0:
-            # return 4, 0, M-1-nj
-            return 4,nj,0
+            return 4, 0, M-1-nj
+            # return 4,nj,0
         elif ni >= M:
             return False
         elif nj < 0:
@@ -71,8 +71,8 @@ def transform_coords(cd,ni,nj):
 
     elif cd ==2: # 서쪽에서 다른 면으로
         if ni < 0:
-            # return 4, nj, 0
-            return 4,0,M-1-nj
+            return 4, nj, 0
+            # return 4,0,M-1-nj
         elif ni >= M:
             return False
         elif nj < 0:
@@ -113,9 +113,11 @@ def bfs1():
 
         for ni,nj in ((ci-1,cj),(ci,cj+1),(ci+1,cj),(ci,cj-1)):
             if not (0<=ni<M and 0<=nj<M):
-                if not transform_coords(cd,ni,nj): continue
+                result = transform_coords(cd,ni,nj)
+                if not result:
+                    continue
                 else:
-                    dir,ni,nj = transform_coords(cd,ni,nj)
+                    dir,ni,nj = result
             else:
                 dir = cd
 
