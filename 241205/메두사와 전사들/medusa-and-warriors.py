@@ -157,11 +157,11 @@ def find(si,sj):
             if 0<=ni<N and 0<=nj<N and not v[ni][nj] and arr[ni][nj] != 1:
                 q.append((ni,nj))
                 v[ni][nj] = (ci,cj)
-    return False
+    return
 
 mlst = find(si,sj)
 # print('')
-if not mlst: print(-1)
+if mlst is None: print(-1)
 
 else:
     flag = False
