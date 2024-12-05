@@ -35,6 +35,7 @@ def bfs(si,sj,dr):
     while q:
         ci,cj = q.popleft()
         if mp[ci][cj] > 0:
+            cnt += mp[ci][cj]
             tlst.append((ci,cj))
         for di,dj in dlst:
             ni,nj = ci+di, cj+dj
@@ -43,7 +44,6 @@ def bfs(si,sj,dr):
                 v[ni][nj] = True
     v[si][sj] = False
     if tlst:
-        cnt = len(tlst)
         nv = [x[:] for x in v]
         nq = deque()
         for ti, tj in tlst:
