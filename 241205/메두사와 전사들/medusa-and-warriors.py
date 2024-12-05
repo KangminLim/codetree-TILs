@@ -22,6 +22,7 @@ from collections import deque
 # 상 하 좌 우
 drdict = {0:((-1,-1),(-1,0),(-1,1)),1: ((1,-1),(1,0),(1,1)), 2:((-1,-1),(0,-1),(1,-1)),3:((-1,1),(0,1),(1,1))}
 
+# v = [[False] * N for _ in range(N)]
 
 pdict = {}
 def bfs(si,sj,dr):
@@ -189,7 +190,7 @@ else:
         if flag:
             break
         mx = 0
-        mv = [[False] * N for _ in range(N)]
+        mv = []
         # 2. 메두사의 공격
         for dr in range(4): # 네 방향중 가장 많이 볼 수 있는 방향 정하기 / 상하좌우
             tmp, tv = bfs(si,sj,dr)
@@ -206,22 +207,20 @@ else:
             ci,cj = wdict[idx]
             if mv[ci][cj] : continue
             mn_dist = abs(ci-si) + abs(cj-sj)
-            ti,tj,cnt = 0,0,0
-            # tlst = []
+            mi,mj,cnt = 0,0,0
+            tlst = []
             # 1번째 이동
             for ni,nj in ((ci-1,cj),(ci+1,cj),(ci,cj-1),(ci,cj+1)): # 상하좌우
                 if 0<=ni<N and 0<=nj<N and not mv[ni][nj] and mn_dist > abs(ni-si)+abs(nj-sj):
                     mn_dist = abs(ni-si) + abs(nj-sj)
-                    ti,tj,cnt = ni,nj,1
-                    # tlst.append((ni,nj,1))
+                    tlst.append((ni,nj,1))
                     # 2번쨰 이동
                     for nni, nnj in ((ni,nj-1),(ni,nj+1),(ni-1,nj),(ni+1,nj)): #좌우상하
                         if 0 <= nni < N and 0 <= nnj < N and not mv[nni][nnj] and mn_dist > abs(nni - si) + abs(nnj - sj):
                             mn_dist = abs(nni - si) + abs(nnj - sj)
-                            ti, tj, cnt = nni, nnj, 2
-                            # tlst.append((nni, nnj,2))
-            if cnt > 0:
-                # ti,tj,cnt = tlst[-1]
+                            tlst.append((nni, nnj,2))
+            if tlst:
+                ti,tj,cnt = tlst[-1]
                 ans1 += cnt
                 if (ti,tj) == (si,sj):
                     ans3 += 1
