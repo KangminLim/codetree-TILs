@@ -54,25 +54,32 @@ def trans_coord(ci,cj,cd):
             return ci,M-1,3
         elif cj >=M:
             return ci,0,1
+        elif ci < 0:
+            return cj,M-1,4
 
     elif cd == 1: # 북쪽
         if cj < 0:
             return ci,M-1,0
         elif cj >= M:
             return ci,0,2
+        elif ci < 0:
+            return 0,M-1-cj,4
 
     elif cd == 2: # 서쪽
         if cj < 0:
             return ci,M-1,1
         elif cj >= M:
             return ci,0,3
+        elif ci < 0:
+            return cj,0,4
 
     elif cd == 3: # 남쪽
         if cj < 0:
             return ci,M-1,2
         elif cj >= M:
             return ci,0,0
-
+        elif ci < 0:
+            return M-1,cj,4
     else:
         return
 
