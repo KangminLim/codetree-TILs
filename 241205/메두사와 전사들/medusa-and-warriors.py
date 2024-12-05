@@ -233,4 +233,5 @@ else:
         # print('')
         mp = nmp
         print(ans1,ans2,ans3)
-print(0)
+if flag:
+    print(0)
