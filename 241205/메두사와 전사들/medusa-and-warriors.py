@@ -134,7 +134,7 @@ def bfs(si,sj,dr):
                             nq.append((ni,nj))
         for ti,tj in tlst:
             if not nv[ti][tj]:
-                cnt -= 1
+                cnt -= mp[ti][tj]
         v = nv
     return cnt, v
 def find(si,sj):
