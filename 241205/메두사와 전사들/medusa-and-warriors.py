@@ -31,13 +31,13 @@ def bfs(si,sj,dr):
     q.append((si,sj))
     v = [[False] * N for _ in range(N)]
     v[si][sj] = True
-    tlst = []
+    tlst = set()
     cnt = 0
     while q:
         ci,cj = q.popleft()
         if mp[ci][cj] > 0:
             cnt += mp[ci][cj]
-            tlst.append((ci,cj))
+            tlst.add((ci,cj))
         for di,dj in dlst:
             ni,nj = ci+di, cj+dj
             if 0<=ni<N and 0<=nj<N and not v[ni][nj]:
