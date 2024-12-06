@@ -1,236 +1,236 @@
-N, M = map(int,input().split())
-si,sj,ei,ej = map(int,input().split())
-rlst = list(map(int,input().split()))
-
-wlst = []
-wdict = {}
-for i in range(0,len(rlst),2):
-    wlst.append((rlst[i],rlst[i+1]))
-    wdict[i//2] = (rlst[i],rlst[i+1])
-arr = [list(map(int,input().split())) for _ in range(N)] # 0: 도로, 1: 도로 x, 2:메두사, 3: 출구
-arr[si][sj] = 2
-arr[ei][ej] = 3
-
-mp = [[0] * N for _ in range(N)] # 사람 표시,
-
-for wi,wj in wlst:
-    mp[wi][wj] += 1
-mp[si][sj] = -1
-
 from collections import deque
+import copy
 
-# 상 하 좌 우
-drdict = {0:((-1,-1),(-1,0),(-1,1)),1: ((1,-1),(1,0),(1,1)), 2:((-1,-1),(0,-1),(1,-1)),3:((-1,1),(0,1),(1,1))}
+def isInBoard(r,c):
+    return (0<=r<N and 0<=c<N)
 
-
-pdict = {}
-def bfs(si,sj,dr):
-    dlst = drdict[dr]
+#목적지 도달 가능 경로 뽑기
+def bfs(r,c, fR,fC):
+    visited = [[0]*N for _ in range(N)]
+    visited[r][c]=1
     q = deque()
-    q.append((si,sj))
-    v = [[False] * N for _ in range(N)]
-    v[si][sj] = True
-    tlst = []
-    cnt = 0
+    q.append((r,c))
+    tmpp = []
     while q:
-        ci,cj = q.popleft()
-        if mp[ci][cj] > 0:
-            cnt += mp[ci][cj]
-            tlst.append((ci,cj))
-        for di,dj in dlst:
-            ni,nj = ci+di, cj+dj
-            if 0<=ni<N and 0<=nj<N and not v[ni][nj]:
-                q.append((ni,nj))
-                v[ni][nj] = True
-    v[si][sj] = False
-    if tlst:
-        # nv = [x[:] for x in v]
-        nq = deque()
-        for ti, tj in tlst:
-            nq.append((ti, tj))
-        if dr == 0: # 상
-            while nq:
-                ti,tj = nq.popleft()
-                if tj < sj:
-                    for di,dj in ((-1,-1),(-1,0)):
-                        ni,nj = ti+di,tj+dj
-                        if 0<=ni<N and 0<=nj<N:
-                            v[ni][nj] = False
-                            nq.append((ni,nj))
-                elif tj > sj:
-                    for di,dj in ((-1,1),(-1,0)):
-                        ni,nj = ti+di,tj+dj
-                        if 0<=ni<N and 0<=nj<N:
-                            v[ni][nj] = False
-                            nq.append((ni,nj))
-                else:
-                    for di,dj in ((-1,0),):
-                        ni,nj = ti+di,tj+dj
-                        if 0<=ni<N and 0<=nj<N:
-                            v[ni][nj] = False
-                            nq.append((ni,nj))
-        elif dr == 1: # 하
-            while nq:
-                ti,tj = nq.popleft()
-                if tj < sj:
-                    for di,dj in ((1,-1),(1,0)):
-                        ni,nj = ti+di,tj+dj
-                        if 0<=ni<N and 0<=nj<N:
-                            v[ni][nj] = False
-                            nq.append((ni,nj))
-                elif tj > sj:
-                    for di,dj in ((1,1),(1,0)):
-                        ni,nj = ti+di,tj+dj
-                        if 0<=ni<N and 0<=nj<N:
-                            v[ni][nj] = False
-                            nq.append((ni,nj))
-                else:
-                    for di,dj in ((1,0),):
-                        ni,nj = ti+di,tj+dj
-                        if 0<=ni<N and 0<=nj<N:
-                            v[ni][nj] = False
-                            nq.append((ni,nj))
-        elif dr == 2: # 좌
-            while nq:
-                ti,tj = nq.popleft()
-                if ti < si:
-                    for di,dj in ((-1,-1),(0,-1)):
-                        ni,nj = ti+di,tj+dj
-                        if 0<=ni<N and 0<=nj<N:
-                            v[ni][nj] = False
-                            nq.append((ni,nj))
-                elif ti > si:
-                    for di,dj in ((1,-1),(0,-1)):
-                        ni,nj = ti+di,tj+dj
-                        if 0<=ni<N and 0<=nj<N:
-                            v[ni][nj] = False
-                            nq.append((ni,nj))
-                else:
-                    for di,dj in ((0,-1),):
-                        ni,nj = ti+di,tj+dj
-                        if 0<=ni<N and 0<=nj<N:
-                            v[ni][nj] = False
-                            nq.append((ni,nj))
-        elif dr == 3: # 우
-            while nq:
-                ti,tj = nq.popleft()
-                if ti < si:
-                    for di,dj in ((-1,1),(0,1)):
-                        ni,nj = ti+di,tj+dj
-                        if 0<=ni<N and 0<=nj<N:
-                            v[ni][nj] = False
-                            nq.append((ni,nj))
-                elif ti > si:
-                    for di,dj in ((1,1),(0,1)):
-                        ni,nj = ti+di,tj+dj
-                        if 0<=ni<N and 0<=nj<N:
-                            v[ni][nj] = False
-                            nq.append((ni,nj))
-                else:
-                    for di,dj in ((0,1),):
-                        ni,nj = ti+di,tj+dj
-                        if 0<=ni<N and 0<=nj<N:
-                            v[ni][nj] = False
-                            nq.append((ni,nj))
-        for ti,tj in tlst:
-            if not v[ti][tj]:
-                cnt -= mp[ti][tj]
-
-    return cnt, v
-def find(si,sj):
-    q = deque()
-    q.append((si,sj))
-    v = [[0] * N for _ in range(N)]
-    v[si][sj] = (si,sj)
-    tlst = [(ei,ej)]
-    while q:
-        ci,cj = q.popleft()
-        if (ci,cj) == (ei,ej):
+        r,c = q.popleft()
+        if (r,c)==(fR, fC):
+            tR,tC = eR,eC
+            stR, stC = sR,sC
             while True:
-                ci,cj = v[ci][cj]
-                if (ci,cj) == (si,sj):
-                    tlst = tlst[::-1]
-                    return tlst
-                tlst.append((ci,cj))
+                tmpp.append((tR,tC))
+                if (tR,tC) == (stR,stC):
+                    break
+                tR, tC = visited[tR][tC]
+        for dr, dc in [(-1,0),(1,0),(0,-1),(0,1)]:
+            nr,nc = r+dr,c+dc
+            if not isInBoard(nr,nc):
+                continue
+            if BoardArr[nr][nc]==0 and visited[nr][nc]==0:
+                visited[nr][nc]=(r,c)
+                q.append((nr,nc))
 
-        for ni,nj in ((ci-1,cj),(ci+1,cj),(ci,cj-1),(ci,cj+1)):
-            if 0<=ni<N and 0<=nj<N and not v[ni][nj] and arr[ni][nj] != 1:
-                q.append((ni,nj))
-                v[ni][nj] = (ci,cj)
-    return
+    return tmpp
 
-flag = False
-mlst = find(si,sj)
-# print('')
-if mlst is None: print(-1)
-else:
-    for turn in range(len(mlst)):
-        # 이동거리, 메두사로 인해 돌이 된 전사의 수, 메두사를 공격
-        ans1 = ans2 = ans3 = 0
-        ni,nj = mlst[turn]
-        if (ni,nj) == (ei,ej):
-            flag = True
-            break
-        # 이동 처리
-        arr[si][sj] = 0
-        arr[ni][nj] = 2
+def downSight(tBoard, tWBoard):
+    #메두사 위치 찾고, 아래시야 설정
+    meduR, meduC = -1,-1
+    for r in range(N):
+        for c in range(N):
+            if tBoard[r][c]==5:
+                meduR,meduC=r,c
+    # print("메두사위치:", meduR, meduC )
+    leftC = meduC
+    rightC = meduC
+    sightBoard = [[0]*N for _ in range(N)] # 1은 메두사가 보고있는구역
+    
+    #1. 메두사 밑 구역 설정/전사 수 싹 세기
+    allWarriorsInSight = 0
+    for r in range(meduR+1,N):
+        leftC-=1
+        rightC+=1
+        for c in range(leftC,rightC+1):
+            if isInBoard(r,c):
+                sightBoard[r][c] = 1
+                if len(tWBoard[r][c])>0:
+                    allWarriorsInSight+=len(tWBoard[r][c])
 
-        mp[si][sj] = 0
-        # 이동한 곳에 전사가 있다면
-        if mp[ni][nj] > 0:
-            # ans2 += mp[ni][nj]
-            for idx in range(M):
-                if idx not in wdict: continue
-                ti,tj = wdict[idx]
-                if (ni,nj) == (ti,tj):
-                    wdict.pop(idx)
-        mp[ni][nj] = -1
-        si,sj = ni,nj
-        if flag:
-            break
-        mx = 0
-        mv = []
-        # 2. 메두사의 공격
-        for dr in range(4): # 네 방향중 가장 많이 볼 수 있는 방향 정하기 / 상하좌우
-            tmp, tv = bfs(si,sj,dr)
-            if tmp > mx:
-                mx = tmp
-                mv = tv
-
-        ans2 += mx
-        # print('')
-        # nmp = [x[:] for x in mp]
-        # 3. 전사의 이동
-        for idx in range(M):
-            if idx not in wdict: continue
-            ci,cj = wdict[idx]
-            if mv[ci][cj] : continue
-            mn_dist = abs(ci-si) + abs(cj-sj)
-            mi,mj,cnt = 0,0,0
-            tlst = []
-            # 1번째 이동
-            for ni,nj in ((ci-1,cj),(ci+1,cj),(ci,cj-1),(ci,cj+1)): # 상하좌우
-                if 0<=ni<N and 0<=nj<N and not mv[ni][nj] and mn_dist > abs(ni-si)+abs(nj-sj):
-                    mn_dist = abs(ni-si) + abs(nj-sj)
-                    tlst.append((ni,nj,1))
-                    # 2번쨰 이동
-                    for nni, nnj in ((ni,nj-1),(ni,nj+1),(ni-1,nj),(ni+1,nj)): #좌우상하
-                        if 0 <= nni < N and 0 <= nnj < N and not mv[nni][nnj] and mn_dist > abs(nni - si) + abs(nnj - sj):
-                            mn_dist = abs(nni - si) + abs(nnj - sj)
-                            tlst.append((nni, nnj,2))
-            if tlst:
-                ti,tj,cnt = tlst[-1]
-                ans1 += cnt
-                if (ti,tj) == (si,sj):
-                    ans3 += 1
-                    wdict.pop(idx)
-                    mp[ci][cj] -= 1
+    #시야 안에 있는 전사별로 그 이하 메두사가 못보는 구역 설정
+    #이때 사라진 전사들은 메두사가 본것에서 숫자 제외
+    for i in range(N):
+        for j in range(N):
+            if sightBoard[i][j]==0:
+                continue
+            if len(tWBoard[i][j])==0:
+                continue
+            #현위치가 기존의 메두사 시야구역이고,
+            #전사가 존재할경우 그 밑으로 사각지대 설정
+            wLeftC = j
+            wRightC = j
+            for r in range(i+1,N):
+                if j<meduC: #메두사보다 왼쪽인경우
+                    wLeftC-=1
+                    for c in range(wLeftC,j+1):
+                        if isInBoard(r,c):
+                            if sightBoard[r][c]==1:
+                                allWarriorsInSight-=len(tWBoard[r][c])
+                            sightBoard[r][c]=0
+                            
+                elif j==meduC:
+                    if sightBoard[r][j]==1:
+                        allWarriorsInSight-=len(tWBoard[r][j])
+                    sightBoard[r][j]=0
+                    
                 else:
-                    mp[ci][cj] -= 1
-                    mp[ti][tj] += 1
-                    wdict[idx] = (ti,tj)
-        # print('')
-        # mp = nmp
-        print(ans1,ans2,ans3)
-if flag:
-    print(0)
+                    wRightC+=1
+                    for c in range(j,wRightC+1):
+                        if isInBoard(r,c):
+                            if sightBoard[r][c]==1:
+                                allWarriorsInSight-=len(tWBoard[r][c])
+                            sightBoard[r][c]=0
+    return allWarriorsInSight, sightBoard
+
+def findMeduMaxDir():
+    """
+    output : (stonedWarriors, possibleMoveMap)
+    현재 자리에서 4방향중 가장 많이 사람 석화하는 방향 찾고,
+    그 사람 수와, 음영 지도 리턴
+    그냥 지도에 메두사를 기록해두고 지도를 돌려서 찾자!!
+    """
+
+    tmpBoard = copy.deepcopy(BoardArr)
+    tmpWarriorBoard = copy.deepcopy(WarriorBoard)
+
+    dirCheckList = [] #하,우,상,좌 순으로 배치됨(회전수 0, 1,2,3)
+    sightBoardList = []
+    
+    for i in range(4):
+        # print("방향:", i)
+        stonedCnt,sBoard = downSight(tmpBoard, tmpWarriorBoard)
+        tmpBoard = list(zip(*tmpBoard[::-1]))
+        tmpWarriorBoard = list(zip(*tmpWarriorBoard[::-1]))
+        dirCheckList.append(stonedCnt)
+        sightBoardList.append(sBoard)
+    
+    #max 찾은 위치에서 stonedCnt, tmpWarriorBoard 리턴
+    result = max(dirCheckList)
+    idxs = [2,0,3,1]
+    resultIdx = 2
+    for i in range(4): 
+        idx = idxs[i]
+        if result ==dirCheckList[idx]:
+            resultIdx = idx
+            break
+    
+    # 이제 음영구역 만들어서 리턴
+    shadowBoard = sightBoardList[resultIdx]
+
+    # 회전수에 맞게 원래 방향으로 만들어서 리턴
+    for _ in range((4-resultIdx)%4):
+        shadowBoard = list(zip(*shadowBoard[::-1]))
+
+    return result, shadowBoard
+
+def calDist(r1,c1, r2,c2):
+    return abs(r1-r2)+abs(c1-c2)
+
+def warriorMovePhase(MoveMap, meduR, meduC):
+    global WarriorBoard
+    #돌로 변하지 않은 전사들은
+    # 메두사를 향해 두칸까지 이동
+
+    # 번호별 관리
+    WarriorCoordsDict = {}
+    for r in range(N):
+        for c in range(N):
+            for i in range(len(WarriorBoard[r][c])):
+                WarriorNum = WarriorBoard[r][c][i]
+                WarriorCoordsDict[WarriorNum] = [r,c]
+    moveCnt = 0
+    for WarriorNum in WarriorCoordsDict:
+        r,c = WarriorCoordsDict[WarriorNum]
+        if MoveMap[r][c]==1:
+            continue
+        oriDist = calDist(r,c,meduR,meduC)
+        moveList = []
+        for dr,dc in [(-1,0),(1,0),(0,-1),(0,1)]:
+            nr,nc = r+dr, c+dc
+            if isInBoard(nr,nc) and MoveMap[nr][nc]==0 and oriDist>calDist(nr,nc,meduR,meduC):
+                moveList.append((nr,nc))
+        if len(moveList)==0:
+            continue
+        moveCnt+=1
+        tR,tC = moveList[0]
+        oriDist = calDist(tR,tC,meduR,meduC)
+        moveList = []
+        for dr,dc in [(0,-1),(0,1),(-1,0),(1,0)]:
+            nr,nc = tR+dr, tC+dc
+            if isInBoard(nr,nc) and MoveMap[nr][nc]==0 and oriDist>calDist(nr,nc,meduR,meduC):
+                moveList.append((nr,nc))
+        if len(moveList)!=0:
+            tR,tC = moveList[0]
+            moveCnt+=1
+        WarriorCoordsDict[WarriorNum] = [tR,tC]
+
+    #다시 지도화하기
+    WarriorBoard = [[[] for _ in range(N)]for _ in range(N)]
+    for WarriorNum in WarriorCoordsDict:
+        r,c = WarriorCoordsDict[WarriorNum]
+        WarriorBoard[r][c].append(WarriorNum)
+
+    return moveCnt
+    
+def WarriorAttackPhase(meduR,meduC):
+    if len(WarriorBoard[meduR][meduC])>0:
+        result = len(WarriorBoard[meduR][meduC])
+        WarriorBoard[meduR][meduC] = []
+        return result
+    return 0
+
+
+#!!!!!----작동시작-----!!!!
+
+#입력부 및 변수
+N, M = map(int,input().split())
+sR, sC, eR, eC = map(int,input().split())
+tmp = list(map(int,input().split()))
+
+WarriorBoard = [[[] for _ in range(N)]for _ in range(N)]
+WarriorCoords = []
+wId = 0
+for i in range(0,M*2,2):
+    WarriorCoords.append([tmp[i],tmp[i+1]])
+    WarriorBoard[tmp[i]][tmp[i+1]].append(wId)
+    wId+=1
+BoardArr = [list(map(int,input().split())) for _ in range(N)]
+
+#메두사 경로 미리뽑기
+meduRoute = bfs(sR,sC, eR,eC)
+meduRoute.reverse()
+# print(meduRoute)
+if len(meduRoute)==0:
+    print(-1)
+#메두사 이동시작
+for i in range(1,len(meduRoute)):
+    mR,mC = meduRoute[i]
+    if (mR,mC)==(eR,eC):
+        print(0)
+        break
+    
+    #메두사이동
+    BoardArr[mR][mC]=5
+    #이미 전사가 있다면 전사 사라짐
+    if len(WarriorBoard[mR][mC])>0:
+        WarriorBoard[mR][mC].clear()
+
+    #4방향중 가장많은 전사 잡을 수 있는 방향 탐색, 결정
+    #돌된 사람수와, 전사들이 이동할수 있는 지도 받아오기
+    stonedWarriors, possibleMoveMap = findMeduMaxDir()
+
+    #전사 이동
+    warriorMoveSum = warriorMovePhase(possibleMoveMap, mR,mC)
+
+    #전사공격
+    warriorAttackCnt = WarriorAttackPhase(mR,mC)
+
+    print(warriorMoveSum,stonedWarriors, warriorAttackCnt)
+    BoardArr[mR][mC] = 0
